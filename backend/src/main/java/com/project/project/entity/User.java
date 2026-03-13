@@ -33,6 +33,12 @@ public class User {
     @Column(nullable = false)
     private String password;
     
+    @Column(name = "user_type", nullable = false)
+    private String userType;
+    
+    @Column(nullable = false)
+    private String username;
+    
     @Column(nullable = false)
     private String address;
     
