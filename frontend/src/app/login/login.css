@@ -1,144 +1,375 @@
-.login-container {
+/* Custom CSS for Login & Register Screens */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:host {
+  display: block;
   min-height: 100vh;
+  background-color: #f3f4f6; /* Very light cool grey */
+  font-family: 'Inter', sans-serif;
+  color: #111827;
+}
+
+.auth-wrapper {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 1.5rem;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+}
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.mb-6 { margin-bottom: 2rem; }
+.mt-2 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+
+/* Header & Typography */
+.logo-box {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
+  width: 56px;
+  height: 56px;
+  background-color: #fff7ed; /* Light orange BG */
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.glass-panel {
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 1.5rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-}
-
-.login-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 2.5rem;
-}
-
-.logo-area {
-  text-align: center;
+.auth-header.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin-bottom: 2rem;
 }
 
-.logo-icon {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  display: inline-block;
-}
-
-.logo-area h1 {
-  font-size: 1.875rem;
+.auth-header h1 {
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
 }
 
-.logo-area p {
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+.text-left h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: -0.025em;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.auth-header-top {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.register-logo-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #111827;
+  text-align: center;
+  flex: 1;
+  margin: 0;
+}
+
+.back-btn {
+  position: absolute;
+  left: -0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6b7280;
+  padding: 0.5rem;
+}
+
+.back-btn:hover {
+  color: #111827;
+}
+
+/* Forms */
+.auth-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
 }
 
 .form-group label {
   display: block;
   font-size: 0.875rem;
-  font-weight: 500;
+  font-weight: 600;
+  color: #374151;
   margin-bottom: 0.5rem;
-  color: #e2e8f0;
 }
 
-.form-group input {
+/* Inputs */
+.input-icon-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  color: #9ca3af;
+  pointer-events: none;
+}
+
+.icon-btn.right-btn {
+  position: absolute;
+  right: 0.5rem;
+  color: #9ca3af;
+  padding: 0.5rem;
+}
+
+.icon-btn:hover {
+  color: #4b5563;
+}
+
+.auth-form input {
   width: 100%;
-  padding: 0.75rem 1rem;
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid var(--glass-border);
+  padding: 0.875rem 1rem;
+  font-size: 0.9375rem;
+  color: #111827;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
   border-radius: 0.5rem;
-  color: #fff;
-  font-size: 1rem;
-  transition: all 0.2s ease;
-}
-
-.form-group input:focus {
   outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
-  background: rgba(15, 23, 42, 0.6);
+  transition: all 0.2s;
+  box-sizing: border-box;
+  font-family: inherit;
 }
 
+.input-icon-wrapper input:not(.plain-input) {
+  padding-left: 2.75rem;
+}
+
+.plain-input {
+  /* For inputs without left icons */
+  padding-left: 1rem !important;
+}
+
+/* Add padding to the right if there's an eye icon button */
+.input-icon-wrapper .right-btn ~ input,
+.input-icon-wrapper input:has(+ .right-btn) {
+  padding-right: 2.75rem;
+}
+
+.auth-form input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-form input:focus {
+  border-color: #ea580c; /* Musipatel Orange */
+  box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.15);
+}
+
+/* Options */
 .form-options {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   margin-bottom: 1.5rem;
-  font-size: 0.875rem;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
   cursor: pointer;
 }
 
-.forgot-password {
-  color: var(--accent-color);
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.2s;
+.remember-me input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  accent-color: #ea580c;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
 }
 
-.forgot-password:hover {
-  color: var(--accent-hover);
+.forgot-link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #ea580c;
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* Buttons */
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-primary {
   width: 100%;
   padding: 0.875rem;
-  background: var(--accent-color);
-  color: #fff;
-  border-radius: 0.5rem;
-  font-weight: 600;
   font-size: 1rem;
-  transition: all 0.2s ease;
-  margin-bottom: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #ea580c; /* Primary Orange */
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .btn-primary:hover {
-  background: var(--accent-hover);
+  background-color: #c2410c;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
 .btn-primary:active {
   transform: translateY(0);
 }
 
-.signup-link {
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.divider span {
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+  color: #9ca3af;
+  font-weight: 500;
+}
+
+/* Social Buttons */
+.social-login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.btn-social:hover {
+  background-color: #f9fafb;
+}
+
+/* Footer & Links */
+.switch-mode {
   text-align: center;
   font-size: 0.875rem;
-  color: var(--text-secondary);
+  color: #6b7280;
 }
 
-.signup-link a {
-  color: var(--accent-color);
+.switch-mode a {
+  color: #ea580c;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.switch-mode a:hover {
+  text-decoration: underline;
+}
+
+.legal-text {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-align: center;
+  line-height: 1.5;
+  margin: 1.5rem 0 0 0;
+}
+
+.legal-text a {
+  color: #ea580c;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.legal-text a:hover {
+  text-decoration: underline;
+}
+
+.auth-footer {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.auth-footer a {
+  font-size: 0.75rem;
+  color: #9ca3af;
   text-decoration: none;
   font-weight: 500;
-  margin-left: 0.25rem;
+  transition: color 0.2s;
 }
 
-.signup-link a:hover {
-  text-decoration: underline;
+.auth-footer a:hover {
+  color: #4b5563;
+}
+
+/* Animation */
+.fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
