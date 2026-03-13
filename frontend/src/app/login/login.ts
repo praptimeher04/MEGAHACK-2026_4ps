@@ -37,7 +37,7 @@ export class LoginComponent {
   onLogin(event: Event) {
     event.preventDefault();
     
-    this.http.post<any>('http://localhost:8089/api/auth/login', this.loginData)
+    this.http.post<any>('http://localhost:8090/api/auth/login', this.loginData)
       .subscribe({
         next: (response) => {
           if (response.token) {
@@ -63,7 +63,7 @@ export class LoginComponent {
     if (form.valid) {
       console.log('Form data:', this.registerData);
 
-      this.http.post<any>('http://localhost:8089/api/auth/register', this.registerData)
+      this.http.post<any>('http://localhost:8090/api/auth/register', this.registerData)
         .subscribe({
           next: (response) => {
             if (response.token) {

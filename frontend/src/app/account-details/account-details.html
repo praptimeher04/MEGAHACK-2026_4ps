@@ -1,220 +1,182 @@
-<div class="tab-content fade-in">
-  <div class="header-section">
-    <h1>Account Details</h1>
-    <p>Manage your personal information, preferences, and security settings.</p>
-  </div>
+<div class="profile-screen-wrapper">
+  <!-- Header -->
+  <header class="profile-app-header">
+    <button class="back-link" routerLink="/dashboard/home">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <h1 class="header-title">My Profile</h1>
+    <button class="settings-btn">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+    </button>
+  </header>
 
-  <div class="account-grid">
-    <div class="profile-card glass-card">
-      <div class="avatar-large">U</div>
-      <h2>John Doe</h2>
-      <p class="role">Premium User</p>
-      
-      <div class="contact-info">
-        <div class="info-item">
-          <span class="label">Email</span>
-          <span class="value">john.doe@example.com</span>
-        </div>
-        <div class="info-item">
-          <span class="label">Phone</span>
-          <span class="value">+1 (555) 123-4567</span>
-        </div>
-        <div class="info-item">
-          <span class="label">Location</span>
-          <span class="value">San Francisco, CA</span>
+  <div class="profile-viewport">
+    <!-- Profile Info Card -->
+    <div class="main-profile-card">
+      <div class="avatar-box">
+        <div class="avatar-ring">
+          <img src="assets/profile-phone-placeholder.png" alt="User Avatar" class="profile-avatar-img">
+          <button class="avatar-edit-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+              <path d="M12 20h9"></path>
+              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+            </svg>
+          </button>
         </div>
       </div>
       
-      <button class="btn-secondary full-width">Edit Profile</button>
+      <div class="profile-identity">
+        <h2 class="user-display-name">Alex Johnson</h2>
+        <div class="user-location">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+          </svg>
+          <span>Green Avenue, Ward 4</span>
+        </div>
+        <div class="status-chip">Verified Citizen</div>
+      </div>
     </div>
 
-    <div class="settings-card glass-card">
-      <h3>Security & Preferences</h3>
-      
-      <div class="setting-group">
-        <div class="setting-info">
-          <h4>Two-Factor Authentication</h4>
-          <p>Add an extra layer of security to your account.</p>
+    <!-- Personal Information Section -->
+    <section class="settings-group">
+      <h3 class="group-label">PERSONAL INFORMATION</h3>
+      <div class="action-card-list">
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-title">EMAIL</span>
+            <p class="item-value">alex.johnson@email.com</p>
+          </div>
+          <svg class="chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
         </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked />
-          <span class="slider"></span>
-        </label>
-      </div>
-      
-      <div class="setting-group">
-        <div class="setting-info">
-          <h4>Email Notifications</h4>
-          <p>Receive updates about your tasks and complaints.</p>
-        </div>
-        <label class="toggle-switch">
-          <input type="checkbox" checked />
-          <span class="slider"></span>
-        </label>
-      </div>
 
-      <div class="danger-zone">
-        <h4>Danger Zone</h4>
-        <p>Irreversible and destructive actions.</p>
-        <button class="btn-danger">Delete Account</button>
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-title">PHONE</span>
+            <p class="item-value">+1 (555) 012-3456</p>
+          </div>
+          <svg class="chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
       </div>
+    </section>
+
+    <!-- Account Settings Section -->
+    <section class="settings-group">
+      <h3 class="group-label">ACCOUNT SETTINGS</h3>
+      <div class="action-card-list">
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-display">Notifications</span>
+            <p class="item-meta">Push, Email, SMS alerts</p>
+          </div>
+          <svg class="chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-display">Language</span>
+            <p class="item-meta">English (US)</p>
+          </div>
+          <svg class="chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Support Section -->
+    <section class="settings-group">
+      <h3 class="group-label">SUPPORT</h3>
+      <div class="action-card-list">
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-display-large">Help & FAQ</span>
+          </div>
+          <svg class="external-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+        </div>
+
+        <div class="action-item-row">
+          <div class="item-icon-box blue-soft">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="16" y1="13" x2="8" y2="13"></line>
+              <line x1="16" y1="17" x2="8" y2="17"></line>
+              <polyline points="10 9 9 9 8 9"></polyline>
+            </svg>
+          </div>
+          <div class="item-content">
+            <span class="item-display-large">Terms of Service</span>
+          </div>
+          <svg class="chevron-right" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logout -->
+    <div class="logout-outer">
+      <button class="logout-pill-btn" routerLink="/login">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span>Logout</span>
+      </button>
+    </div>
+
+    <!-- App Version -->
+    <div class="version-footer">
+      Version 2.4.1 (Municipality Build)
     </div>
   </div>
 </div>
 
-<style>
-  .fade-in { animation: fadeIn 0.4s ease-in-out; }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 
-  .header-section { margin-bottom: 2rem; }
-  .header-section h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
-  .header-section p { color: var(--text-secondary); }
-
-  .account-grid {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 1.5rem;
-  }
-  
-  @media (max-width: 800px) {
-    .account-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--glass-border);
-    border-radius: 0.75rem;
-    padding: 2rem;
-  }
-
-  .profile-card {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .avatar-large {
-    width: 96px;
-    height: 96px;
-    background: var(--accent-color);
-    color: white;
-    font-size: 2.5rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    margin-bottom: 1rem;
-    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
-  }
-
-  .profile-card h2 { margin-bottom: 0.25rem; }
-  .role { color: var(--accent-color); font-size: 0.875rem; font-weight: 500; margin-bottom: 2rem; }
-
-  .contact-info { width: 100%; margin-bottom: 2rem; text-align: left;}
-  
-  .info-item {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
-  .value { font-weight: 500; }
-
-  .full-width { width: 100%; }
-  
-  .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.2s;
-    background: rgba(255,255,255,0.05);
-    color: var(--text-primary);
-    border: 1px solid var(--glass-border);
-    cursor: pointer;
-  }
-  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-
-  .settings-card h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--glass-border);
-  }
-
-  .setting-group {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-
-  .setting-info h4 { margin-bottom: 0.25rem; font-weight: 500; }
-  .setting-info p { color: var(--text-secondary); font-size: 0.875rem; }
-
-  /* Toggle Switch CSS */
-  .toggle-switch {
-    position: relative;
-    display: inline-block;
-    width: 48px;
-    height: 24px;
-  }
-  .toggle-switch input { opacity: 0; width: 0; height: 0; }
-  .slider {
-    position: absolute; cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(255,255,255,0.1);
-    transition: .4s;
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-  }
-  .slider:before {
-    position: absolute; content: "";
-    height: 18px; width: 18px;
-    left: 3px; bottom: 2px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-  }
-  input:checked + .slider {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
-  }
-  input:focus + .slider { box-shadow: 0 0 1px var(--accent-color); }
-  input:checked + .slider:before { transform: translateX(24px); }
-
-  .danger-zone {
-    margin-top: 3rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(239, 68, 68, 0.3);
-  }
-
-  .danger-zone h4 { color: #fca5a5; margin-bottom: 0.25rem; }
-  .danger-zone p { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem; }
-
-  .btn-danger {
-    padding: 0.6rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.2s;
-    background: rgba(239, 68, 68, 0.1);
-    color: #fca5a5;
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    cursor: pointer;
-  }
-  
-  .btn-danger:hover {
-    background: rgba(239, 68, 68, 0.2);
-    color: #fef2f2;
-  }
-</style>

@@ -1,15 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --bg-color: #0b0f19;
-  --glass-bg: rgba(255, 255, 255, 0.03);
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: #94a3b8;
-  --accent-color: #6366f1;
-  --accent-hover: #4f46e5;
-  --danger: #ef4444;
-  --success: #10b981;
+  --bg-color: #F8F9FB;
+  --text-primary: #1A1C2E;
+  --text-secondary: #64748B;
+  --accent-color: #F05A17; /* Municipal Orange */
+  --accent-hover: #D9480F;
+  --danger: #EF4444;
+  --success: #10B981;
+  --card-bg: #FFFFFF;
+  --border-color: #EDEDED;
 }
 
 * {
@@ -19,13 +19,10 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: var(--bg-color);
   color: var(--text-primary);
   min-height: 100vh;
-  background-image: 
-    radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.15), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.15), transparent 25%);
   overflow-x: hidden;
 }
 
@@ -34,8 +31,9 @@ button {
   cursor: pointer;
   border: none;
   outline: none;
+  background: none;
 }
 
-input {
+input, textarea {
   font-family: inherit;
 }

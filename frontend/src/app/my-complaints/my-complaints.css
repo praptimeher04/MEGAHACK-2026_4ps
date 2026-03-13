@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.my-complaints-screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  background-color: #F8F9FC;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Header */
+.screen-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1rem;
+  background: #FFFFFF;
+  border-bottom: 1px solid #F1F3F6;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #1A1C2E;
+  margin: 0;
+  text-align: center;
+}
+
+.back-link {
+  color: #1A1C2E;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.back-link:hover {
+  background: #F8F9FC;
+}
+
+.header-spacer {
+  width: 40px;
+}
+
+/* Tab Switcher */
+.tabs-wrapper {
+  padding: 1rem 1.25rem;
+  background: #FFFFFF;
+}
+
+.pill-switcher {
+  display: flex;
+  background: #F1F3F6;
+  padding: 0.35rem;
+  border-radius: 14px;
+  gap: 0.35rem;
+}
+
+.pill-btn {
+  flex: 1;
+  padding: 0.85rem;
+  border-radius: 11px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #64748B;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.pill-btn.active {
+  background: #FFFFFF;
+  color: #F05A17;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* Content Area */
+.content-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Empty View */
+.empty-view {
+  margin: auto;
+  text-align: center;
+  padding: 2rem;
+  max-width: 340px;
+}
+
+.empty-illustration {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.icon-circle {
+  width: 100px;
+  height: 100px;
+  background: #EDF5FF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #1A1C2E;
+  margin-bottom: 0.75rem;
+}
+
+.empty-text {
+  font-size: 1rem;
+  color: #64748B;
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.btn-primary-orange {
+  background: #F05A17;
+  color: #FFFFFF;
+  width: 100%;
+  padding: 1.15rem;
+  border-radius: 14px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(240, 90, 23, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary-orange:hover {
+  background: #D9480F;
+  transform: translateY(-2px);
+  box-shadow: 0 15px 35px rgba(240, 90, 23, 0.3);
+}
+
+.btn-primary-orange:active {
+  transform: translateY(0);
+}

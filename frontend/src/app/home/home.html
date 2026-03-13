@@ -1,154 +1,84 @@
-<div class="tab-content fade-in">
-  <div class="header-section">
-    <h1>Welcome to Your Dashboard</h1>
-    <p>Get an overview of your activities and quick access to tools.</p>
+<div class="home-container">
+  <!-- Greeting Header -->
+  <div class="home-header">
+    <div class="user-info">
+      <img src="user_avatar.png" alt="User Avatar" class="header-avatar">
+      <div class="greeting-text">
+        <span class="greeting-label">Good Morning,</span>
+        <h1 class="user-name">Alex Johnson</h1>
+      </div>
+    </div>
+    <div class="notification-icon">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+      <span class="notification-dot"></span>
+    </div>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card glass-card">
-      <div class="stat-icon">📈</div>
-      <div class="stat-info">
-        <h3>Total Tasks</h3>
-        <p class="stat-value">24</p>
-      </div>
-    </div>
-    
-    <div class="stat-card glass-card">
-      <div class="stat-icon">✅</div>
-      <div class="stat-info">
-        <h3>Completed</h3>
-        <p class="stat-value text-success">18</p>
-      </div>
-    </div>
-
-    <div class="stat-card glass-card">
-      <div class="stat-icon">⚠️</div>
-      <div class="stat-info">
-        <h3>Pending Complaints</h3>
-        <p class="stat-value text-danger">2</p>
+  <!-- Welcome Card -->
+  <div class="welcome-card">
+    <div class="welcome-content">
+      <h2>Welcome back, Resident</h2>
+      <p>Your voice helps us build a better city. We've resolved 12 issues in your neighborhood this week.</p>
+      <div class="welcome-actions">
+        <button class="btn-report">View Weekly Report</button>
+        <button class="btn-register" routerLink="/dashboard/register-complaint">Report New Issue</button>
       </div>
     </div>
   </div>
 
-  <div class="recent-activity glass-card">
-    <h3>Recent Activity</h3>
-    <ul class="activity-list">
-      <li>Logged in from Windows at 10:00 AM</li>
-      <li>Updated profile picture</li>
-      <li>Resolved complaint #1024</li>
-    </ul>
+  <!-- Active Complaints Section -->
+  <div class="section-header">
+    <h3>Active Complaints</h3>
+    <a routerLink="/dashboard/my-complaints" class="see-all">See All</a>
+  </div>
+
+  <div class="complaints-list">
+    <div class="complaint-card">
+      <div class="complaint-icon traffic">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 22h14"></path><path d="M12 2v20"></path><circle cx="12" cy="7" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="12" cy="17" r="1.5"></circle></svg>
+      </div>
+      <div class="complaint-details">
+        <h4>Broken Street Light</h4>
+        <p>Main St. Corner, Ward 4</p>
+      </div>
+      <div class="complaint-status-col">
+        <span class="status-badge in-progress">IN PROGRESS</span>
+        <span class="updated-time">Updated 2h ago</span>
+      </div>
+    </div>
+
+    <div class="complaint-card">
+      <div class="complaint-icon water">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+      </div>
+      <div class="complaint-details">
+        <h4>Water Leakage</h4>
+        <p>Green Avenue, Apartment 4B</p>
+      </div>
+      <div class="complaint-status-col">
+        <span class="status-badge received">RECEIVED</span>
+        <span class="updated-time">Yesterday</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- City Updates Section -->
+  <div class="section-header">
+    <h3>City Updates</h3>
+    <a href="#" class="more-news">More News</a>
+  </div>
+
+  <div class="updates-horizontal-scroll">
+    <div class="update-card">
+      <div class="update-image-wrapper">
+        <img src="city_news.png" alt="Infrastructure Update">
+      </div>
+      <div class="update-info">
+        <span class="update-category">INFRASTRUCTURE</span>
+        <h4>New Bike Lane Project Starts</h4>
+        <p>The city is adding 5km of new bike lanes connecting the downtown area to suburbs.</p>
+      </div>
+    </div>
   </div>
 </div>
 
-<style>
-  .fade-in {
-    animation: fadeIn 0.4s ease-in-out;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .header-section {
-    margin-bottom: 2rem;
-  }
-
-  .header-section h1 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-
-  .header-section p {
-    color: var(--text-secondary);
-  }
-
-  .glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid var(--glass-border);
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .glass-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-  }
-
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .stat-card {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-  }
-
-  .stat-icon {
-    font-size: 2.5rem;
-    background: rgba(99, 102, 241, 0.1);
-    width: 60px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 1rem;
-    border: 1px solid rgba(99, 102, 241, 0.2);
-  }
-
-  .stat-info h3 {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-
-  .stat-value {
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin: 0;
-  }
-
-  .text-success { color: var(--success); }
-  .text-danger { color: var(--danger); }
-
-  .recent-activity h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 1rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid var(--glass-border);
-  }
-
-  .activity-list {
-    list-style: none;
-    padding: 0;
-  }
-
-  .activity-list li {
-    padding: 0.75rem 0;
-    color: var(--text-secondary);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-    display: flex;
-    align-items: center;
-  }
-  
-  .activity-list li::before {
-    content: "•";
-    color: var(--accent-color);
-    font-weight: bold;
-    display: inline-block; 
-    width: 1em;
-    margin-left: -1em;
-  }
-
-  .activity-list li:last-child {
-    border-bottom: none;
-  }
-</style>
