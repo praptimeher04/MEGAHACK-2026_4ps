@@ -33,12 +33,6 @@ public class User {
     @Column(nullable = false)
     private String password;
     
-    @Column(name = "user_type", nullable = false)
-    private Integer userType;
-    
-    @Column(nullable = false)
-    private String username;
-    
     @Column(nullable = false)
     private String address;
     
@@ -47,4 +41,7 @@ public class User {
     
     @Column(nullable = false)
     private String pincode;
+    
+    @Column(name = "user_type", nullable = false)
+    private Integer userType;
 }

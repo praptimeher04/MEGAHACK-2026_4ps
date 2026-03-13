@@ -1,195 +1,1370 @@
-<div class="super-admin-container">
-  <div class="header">
-    <h1>Super Admin Panel</h1>
-    <button class="logout-btn" (click)="logout()">Logout</button>
-  </div>
-
-  <div class="tabs">
-    <button [class.active]="activeTab === 'states'" (click)="setActiveTab('states')">States</button>
-    <button [class.active]="activeTab === 'cities'" (click)="setActiveTab('cities')">Cities</button>
-    <button [class.active]="activeTab === 'municipal'" (click)="setActiveTab('municipal')">Municipal Departments</button>
-  </div>
-
-  <!-- States Tab -->
-  <div *ngIf="activeTab === 'states'" class="tab-content">
-    <h2>Manage States</h2>
-    
-    <div class="form-section">
-      <h3>Add New State</h3>
-      <form (ngSubmit)="createState()">
-        <div class="form-group">
-          <label>State Code:</label>
-          <input type="text" [(ngModel)]="stateForm.stateCode" name="stateCode" required>
-        </div>
-        <div class="form-group">
-          <label>State Name:</label>
-          <input type="text" [(ngModel)]="stateForm.stateName" name="stateName" required>
-        </div>
-        <button type="submit" class="btn-primary">Add State</button>
-      </form>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7H22L12 2ZM2 9V11H22V9H2ZM4 13H7V20H4V13ZM10 13H14V20H10V13ZM17 13H20V20H17V13ZM2 22V24H22V22H2Z"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h2>Municipal Portal</h2>
+        <p>Super Admin Panel</p>
+      </div>
     </div>
 
-    <div class="table-section">
-      <h3>All States</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>State Code</th>
-            <th>State Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let state of states">
-            <td>{{ state.id }}</td>
-            <td>{{ state.stateCode }}</td>
-            <td>{{ state.stateName }}</td>
-            <td>
-              <button class="btn-delete" (click)="deleteState(state.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <nav class="sidebar-nav">
+      <div class="nav-item" [class.active]="activeTab === 'dashboard'" (click)="setActiveTab('dashboard')">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <rect x="3" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="3" width="7" height="7" rx="1" />
+            <rect x="14" y="14" width="7" height="7" rx="1" />
+            <rect x="3" y="14" width="7" height="7" rx="1" />
+          </svg>
+        </span>
+        <span>Dashboard</span>
+      </div>
+      
+      <div class="nav-item" [class.active]="activeTab === 'states'" (click)="setActiveTab('states')">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2L2 22H22L12 2ZM12 6L18 18H6L12 6Z" />
+          </svg>
+        </span>
+        <span>States</span>
+      </div>
 
-  <!-- Cities Tab -->
-  <div *ngIf="activeTab === 'cities'" class="tab-content">
-    <h2>Manage Cities</h2>
-    
-    <div class="form-section">
-      <h3>Add New City</h3>
-      <form (ngSubmit)="createCity()">
-        <div class="form-group">
-          <label>Select State:</label>
-          <select [(ngModel)]="cityForm.stateId" name="stateId" required>
-            <option value="">-- Select State --</option>
-            <option *ngFor="let state of states" [value]="state.id">{{ state.stateName }}</option>
-          </select>
+      <div class="nav-item" [class.active]="activeTab === 'cities'" (click)="setActiveTab('cities')">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19H2V21H22V19H21ZM11 19H5V5H11V19ZM19 19H13V5H19V19Z"/>
+          </svg>
+        </span>
+        <span>Cities</span>
+      </div>
+
+      <div class="nav-item" [class.active]="activeTab === 'municipal'" (click)="setActiveTab('municipal')">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14 6L10 2L6 6L10 10L14 6ZM14 22L10 18L6 22L10 26L14 22Z" />
+          </svg>
+        </span>
+        <span>Municipal Management</span>
+      </div>
+
+      <div class="nav-item" [class.active]="activeTab === 'department'" (click)="setActiveTab('department')">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M16 11C17.66 11 18.99 9.66 18.99 8C18.99 6.34 17.66 5 16 5C14.34 5 13 6.34 13 8C13 9.66 14.34 11 16 11ZM8 11C9.66 11 10.99 9.66 10.99 8C10.99 6.34 9.66 5 8 5C6.34 5 5 6.34 5 8C5 9.66 6.34 11 8 11ZM8 13C5.67 13 1 14.17 1 16.5V19H15V16.5C15 14.17 10.33 13 8 13ZM16 13C15.71 13 15.38 13.02 15.03 13.05C16.19 13.89 17 15.02 17 16.5V19H23V16.5C23 14.17 18.33 13 16 13Z"/>
+          </svg>
+        </span>
+        <span>Department Management</span>
+      </div>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-divider"></div>
+      <button class="settings-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M19.14 12.94C19.18 12.63 19.2 12.32 19.2 12C19.2 11.68 19.18 11.37 19.14 11.06L21.14 9.5C21.32 9.36 21.37 9.1 21.27 8.91L19.37 5.62C19.27 5.43 19.03 5.35 18.84 5.42L16.48 6.37C15.99 5.99 15.46 5.67 14.88 5.43L14.52 2.92C14.49 2.7 14.3 2.53 14.07 2.53H10.27C10.05 2.53 9.86 2.7 9.83 2.92L9.47 5.43C8.89 5.67 8.36 6.01 7.87 6.37L5.5 5.42C5.31 5.34 5.08 5.43 4.98 5.62L3.08 8.91C2.98 9.1 3.03 9.36 3.21 9.5L5.21 11.06C5.17 11.37 5.15 11.68 5.15 12C5.15 12.32 5.17 12.63 5.21 12.94L3.21 14.5C3.03 14.64 2.98 14.9 3.08 15.09L4.98 18.38C5.08 18.57 5.31 18.66 5.51 18.58L7.87 17.63C8.36 18.01 8.89 18.33 9.47 18.57L9.83 21.08C9.86 21.3 10.05 21.47 10.27 21.47H14.07C14.3 21.47 14.49 21.3 14.52 21.08L14.88 18.57C15.46 18.33 15.99 17.99 16.48 17.63L18.84 18.58C19.03 18.66 19.27 18.57 19.37 18.38L21.27 15.09C21.37 14.9 21.32 14.64 21.14 14.5L19.14 12.94ZM12 15.5C10.07 15.5 8.5 13.93 8.5 12C8.5 10.07 10.07 8.5 12 8.5C13.93 8.5 15.5 10.07 15.5 12C15.5 13.93 13.93 15.5 12 15.5Z" />
+        </svg>
+        <span>System Settings</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-wrapper" [class.light-mode]="activeTab === 'dashboard' || activeTab === 'states' || activeTab === 'cities' || activeTab === 'municipal' || activeTab === 'department'">
+    <header class="top-header">
+      <div class="page-title">
+        <h1>Transparency Dashboard</h1>
+      </div>
+
+      <div class="header-actions">
+        <div class="search-bar">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" placeholder="Search data points...">
         </div>
-        <div class="form-group">
-          <label>City Code:</label>
-          <input type="text" [(ngModel)]="cityForm.cityCode" name="cityCode" required>
+        <button class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" />
+          </svg>
+          <span class="notification-dot"></span>
+        </button>
+        <button class="icon-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M9.37 5.51C9.19 6.15 9.1 6.82 9.1 7.5C9.1 11.64 12.46 15 16.6 15C17.28 15 17.95 14.91 18.59 14.73C17.51 17.81 14.54 20 11 20C6.58 20 3 16.42 3 12C3 8.46 5.19 5.49 8.27 4.41C8.61 4.3 8.98 4.22 9.37 5.51Z" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="content-container">
+      <!-- Dashboard Tab -->
+      <div *ngIf="activeTab === 'dashboard'" class="fade-in-up admin-white-theme">
+        <div class="tab-header">
+          <h2>Dashboard Overview</h2>
+          <p>Real-time municipal performance and system-wide activity monitor.</p>
         </div>
-        <div class="form-group">
-          <label>City Name:</label>
-          <input type="text" [(ngModel)]="cityForm.cityName" name="cityName" required>
+
+        <div class="stats-grid">
+          <!-- Total States -->
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrapper orange-light">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)">
+                  <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.43 4 16.05 4 12C4 11.38 4.08 10.78 4.21 10.21L9 15V16C9 17.1 9.9 18 11 18V19.93ZM17.9 17.39C17.64 16.58 16.9 16 16 16H15V13C15 12.45 14.55 12 14 12H8V10H10C10.55 10 11 9.55 11 9V7H13C14.1 7 15 6.1 15 5V4.59C17.93 5.77 20 8.64 20 12C20 14.08 19.2 15.97 17.9 17.39Z" />
+                </svg>
+              </div>
+              <span class="stat-trend trend-up">+2.4%</span>
+            </div>
+            <div class="stat-info">
+              <span>Total States</span>
+              <h3>{{ states.length > 0 ? states.length : '52' }}</h3>
+            </div>
+            <div class="sparkline">
+              <svg viewBox="0 0 100 40" fill="none" style="width: 100%; height: 100%;">
+                <path d="M0 35 C 10 25, 15 30, 25 35 S 40 20, 50 25 S 65 35, 75 25" stroke="var(--success)" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Active Cities -->
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrapper orange-light">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)">
+                  <path d="M15 11V5L12 2L9 5V7H3V21H21V11H15ZM7 19H5V17H7V19ZM7 15H5V13H7V15ZM7 11H5V9H7V11ZM13 19H11V17H13V19ZM13 15H11V13H13V15ZM13 11H11V9H13V11ZM13 7H11V5H13V7ZM19 19H17V17H19V19ZM19 15H17V13H19V15Z"/>
+                </svg>
+              </div>
+              <span class="stat-trend trend-up">+5.1%</span>
+            </div>
+            <div class="stat-info">
+              <span>Active Cities</span>
+              <h3>{{ cities.length > 0 ? cities.length : '1,240' }}</h3>
+            </div>
+            <div class="sparkline">
+              <svg viewBox="0 0 100 40" fill="none" style="width: 100%; height: 100%;">
+                <path d="M0 35 L 20 30 L 40 32 L 60 25 L 80 28 L 100 18" stroke="var(--success)" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Municipalities -->
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrapper orange-light">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)">
+                  <path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V15H9V17ZM9 13H7V11H9V13ZM9 9H7V7H9V9ZM13 17H11V15H13V17ZM13 13H11V11H13V13ZM13 9H11V7H13V9ZM17 17H15V15H17V17ZM17 13H15V11H17V13ZM17 9H15V7H17V9Z"/>
+                </svg>
+              </div>
+              <span class="stat-trend trend-down">-0.8%</span>
+            </div>
+            <div class="stat-info">
+              <span>Municipalities</span>
+              <h3>4,850</h3>
+            </div>
+            <div class="sparkline">
+              <svg viewBox="0 0 100 40" fill="none" style="width: 100%; height: 100%;">
+                <path d="M0 20 C 30 25, 60 35, 100 30" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Platform Users -->
+          <div class="stat-card">
+            <div class="stat-top">
+              <div class="stat-icon-wrapper orange-light">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--primary)">
+                  <path d="M15 12C17.21 12 19 10.21 19 8C19 5.79 17.21 4 15 4C12.79 4 11 5.79 11 8C11 10.21 12.79 12 15 12ZM6 10V7H4V10H1V12H4V15H6V12H9V10H6ZM15 14C12.33 14 7 15.34 7 18V20H23V18C23 15.34 17.67 14 15 14Z" />
+                </svg>
+              </div>
+              <span class="stat-trend trend-up">+12%</span>
+            </div>
+            <div class="stat-info">
+              <span>Platform Users</span>
+              <h3>125.4k</h3>
+            </div>
+            <div class="sparkline">
+              <svg viewBox="0 0 100 40" fill="none" style="width: 100%; height: 100%;">
+                <path d="M0 35 C 20 30, 40 32, 60 25 S 80 40, 100 15" stroke="var(--success)" stroke-width="2" stroke-linecap="round" fill="none"/>
+              </svg>
+            </div>
+          </div>
         </div>
-        <button type="submit" class="btn-primary">Add City</button>
-      </form>
+
+        <div class="activity-grid">
+          <div class="activity-card charts-section">
+            <div class="card-header">
+              <div class="header-text-group">
+                <h3>System Activity</h3>
+                <p>Citizen complaint trends across all municipalities</p>
+              </div>
+              <div class="dropdown-wrapper">
+                <select class="header-filter">
+                  <option>Last 30 Days</option>
+                </select>
+                <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+            </div>
+            <div class="activity-chart">
+              <div class="y-axis-lines">
+                <div class="y-line"></div>
+                <div class="y-line"></div>
+                <div class="y-line"></div>
+                <div class="y-line"></div>
+              </div>
+              <div class="chart-content">
+                <svg viewBox="0 0 500 200" preserveAspectRatio="none" style="width: 100%; height: 100%; overflow: visible; padding-bottom: 20px;">
+                  <defs>
+                    <linearGradient id="chart-fill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="var(--primary)" stop-opacity="0.2" />
+                      <stop offset="100%" stop-color="var(--primary)" stop-opacity="0" />
+                    </linearGradient>
+                  </defs>
+                  <!-- Smooth Area Fill -->
+                  <path d="M0 160 C 50 160, 80 170, 120 150 S 180 60, 240 60 S 290 190, 340 160 S 370 20, 420 70 L 420 200 L 0 200 Z" fill="url(#chart-fill)" />
+                  <!-- Smooth Line Path -->
+                  <path d="M0 160 C 50 160, 80 170, 120 150 S 180 60, 240 60 S 290 190, 340 160 S 370 20, 420 70" stroke="var(--primary)" stroke-width="3" fill="none" class="chart-line" />
+                </svg>
+              </div>
+              <div class="x-axis-labels">
+                <span>MON</span>
+                <span>TUE</span>
+                <span>WED</span>
+                <span>THU</span>
+                <span>FRI</span>
+                <span>SAT</span>
+                <span>SUN</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="activity-card recent-activity">
+            <div class="card-header">
+              <h3>Recent Activity</h3>
+              <a href="javascript:void(0)" class="view-all">View All</a>
+            </div>
+            <div class="activity-feed">
+              <div class="feed-item">
+                <div class="feed-icon blue-light">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#3B82F6">
+                    <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1ZM10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z" />
+                  </svg>
+                </div>
+                <div class="feed-content">
+                  <h4>New Municipality Verified</h4>
+                  <p>San Diego Region, CA</p>
+                  <span class="feed-time">2 MINS AGO</span>
+                </div>
+              </div>
+              
+              <div class="feed-item">
+                <div class="feed-icon yellow-light">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#EAB308">
+                    <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" />
+                  </svg>
+                </div>
+                <div class="feed-content">
+                  <h4>System Alert: Latency High</h4>
+                  <p>Database cluster 04 response delay</p>
+                  <span class="feed-time">14 MINS AGO</span>
+                </div>
+              </div>
+
+              <div class="feed-item">
+                <div class="feed-icon green-light">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="var(--success)">
+                    <path d="M15 12C17.21 12 19 10.21 19 8C19 5.79 17.21 4 15 4C12.79 4 11 5.79 11 8C11 10.21 12.79 12 15 12ZM6 10V7H4V10H1V12H4V15H6V12H9V10H6ZM15 14C12.33 14 7 15.34 7 18V20H23V18C23 15.34 17.67 14 15 14Z" />
+                  </svg>
+                </div>
+                <div class="feed-content">
+                  <h4>500+ New Citizen Signups</h4>
+                  <p>Bulk registration from Florida District</p>
+                  <span class="feed-time">1 HOUR AGO</span>
+                </div>
+              </div>
+
+              <div class="feed-item">
+                <div class="feed-icon purple-light">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#8B5CF6">
+                    <path d="M12 4V1L8 5L12 9V6C15.31 6 18 8.69 18 12C18 13.01 17.75 13.97 17.3 14.8L18.76 16.26C19.54 15.03 20 13.57 20 12C20 7.58 16.42 4 12 4ZM12 18C8.69 18 6 15.31 6 12C6 10.99 6.25 10.03 6.7 9.2L5.24 7.74C4.46 8.97 4 10.43 4 12C4 16.42 7.58 20 12 20V23L16 19L12 15V18Z" />
+                  </svg>
+                </div>
+                <div class="feed-content">
+                  <h4>Policy Update Deployed</h4>
+                  <p>Transparency Protocol V2.4</p>
+                  <span class="feed-time">3 HOURS AGO</span>
+                </div>
+              </div>
+
+              <div class="feed-item">
+                <div class="feed-icon gray-light">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="#64748B">
+                    <path d="M19 5V19H5V5H19ZM21 3H3V21H21V3ZM12 17L17 12H14V8H10V12H7L12 17Z" />
+                  </svg>
+                </div>
+                <div class="feed-content">
+                  <h4>Data Backup Completed</h4>
+                  <p>Full weekly mirror successful</p>
+                  <span class="feed-time">5 HOURS AGO</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- States Tab -->
+      <div *ngIf="activeTab === 'states'" class="fade-in-up admin-white-theme">
+        
+        <div class="page-breadcrumb mb-6">
+          <span class="text-muted">Admin</span> 
+          <span class="chevron-separator">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span> 
+          <span class="current">State Management</span>
+        </div>
+
+        <div class="tab-header flex-between mb-8">
+          <div>
+            <h2 class="page-title-lg">State Management</h2>
+            <p class="page-subtitle">Configure and monitor jurisdictional states across the platform.</p>
+          </div>
+          <button class="btn-primary shadow-sm lg-btn" (click)="openNewStateModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add New State</span>
+          </button>
+        </div>
+
+        <div class="stats-grid stats-grid-auto mb-8">
+          <!-- Total States -->
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle blue-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--info)">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM11 19.93C7.05 19.43 4 16.05 4 12C4 11.38 4.08 10.78 4.21 10.21L9 15V16C9 17.1 9.9 18 11 18V19.93ZM17.9 17.39C17.64 16.58 16.9 16 16 16H15V13C15 12.45 14.55 12 14 12H8V10H10C10.55 10 11 9.55 11 9V7H13C14.1 7 15 6.1 15 5V4.59C17.93 5.77 20 8.64 20 12C20 14.08 19.2 15.97 17.9 17.39Z" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Total States</span>
+              <h3>{{ states.length > 0 ? states.length : '52' }}</h3>
+            </div>
+          </div>
+          
+          <!-- Active Municipalities -->
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle green-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--success)">
+                <path d="M15 11V5L12 2L9 5V7H3V21H21V11H15ZM7 19H5V17H7V19ZM7 15H5V13H7V15ZM7 11H5V9H7V11ZM13 19H11V17H13V19ZM13 15H11V13H13V15ZM13 11H11V9H13V11ZM13 7H11V5H13V7ZM19 19H17V17H19V19ZM19 15H17V13H19V15Z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Active Municipalities</span>
+              <h3>1,240</h3>
+            </div>
+          </div>
+
+          <!-- Pending Requests -->
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle yellow-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#EAB308">
+                <path d="M1 21H23L12 2L1 21ZM13 18H11V16H13V18ZM13 14H11V10H13V14Z" />
+                <circle cx="17" cy="8" r="4" fill="#EAB308" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Pending Requests</span>
+              <h3>14</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Datatable Card -->
+        <div class="table-card bg-white rounded-xl shadow-xs">
+          
+          <!-- Table Toolbar -->
+          <div class="table-toolbar flex-between">
+            <div class="search-bar border-bg minimal-search flex-1 max-w-md">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" placeholder="Search by state name or code...">
+            </div>
+
+            <div class="toolbar-actions flex-align gap-3">
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>State Name</option>
+                  <option *ngFor="let state of states" [value]="state.id">{{state.stateName}}</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>State Code</option>
+                  <option *ngFor="let state of states" [value]="state.id">{{state.stateCode}}</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <button class="btn-outline-minimal flex-align gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export</span>
+              </button>
+            </div>
+          </div>
+
+
+          <!-- Datatable -->
+          <div class="table-container clean-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>STATE NAME</th>
+                  <th>CODE</th>
+                  <th>REGION</th>
+                  <th>MUNICIPALITIES</th>
+                  <th>STATUS</th>
+                  <th class="text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let state of states" class="table-row">
+                  <td>
+                    <div class="name-cell font-semibold">
+                      <div class="avatar badge-light-orange">{{ state.stateCode ? state.stateCode : 'ST' }}</div>
+                      <span class="text-dark">{{ state.stateName || 'Unknown State' }}</span>
+                    </div>
+                  </td>
+                  <td class="text-medium text-dark">
+                    US-{{ state.stateCode }}
+                  </td>
+                  <td class="text-medium text-dark">
+                    West Coast <!-- Mock Data for visual matching -->
+                  </td>
+                  <td class="text-medium text-dark">
+                    482 <!-- Mock Data -->
+                  </td>
+                  <td>
+                    <span class="status-pill state-active">Active</span>
+                  </td>
+                  <td class="text-right">
+                    <div class="action-buttons-flex">
+                      <button class="icon-btn-minimal" aria-label="Edit" title="Edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M12 20h9"></path>
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                      </button>
+                      <button class="icon-btn-minimal text-danger-hover" aria-label="Delete" title="Delete" (click)="deleteState(state.id)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- If Empty Display Default Example Rows using *ngIf -->
+                <ng-container *ngIf="states.length === 0">
+                  <tr class="table-row">
+                    <td>
+                      <div class="name-cell font-semibold">
+                        <div class="avatar badge-light-orange">CA</div>
+                        <span class="text-dark">California</span>
+                      </div>
+                    </td>
+                    <td class="text-medium text-dark">US-CA</td>
+                    <td class="text-medium text-dark">West Coast</td>
+                    <td class="text-medium text-dark">482</td>
+                    <td><span class="status-pill state-active">Active</span></td>
+                    <td class="text-right">
+                      <div class="action-buttons-flex">
+                        <button class="icon-btn-minimal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+                        <button class="icon-btn-minimal text-danger-hover"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="table-row">
+                    <td>
+                      <div class="name-cell font-semibold">
+                        <div class="avatar badge-light-orange">TX</div>
+                        <span class="text-dark">Texas</span>
+                      </div>
+                    </td>
+                    <td class="text-medium text-dark">US-TX</td>
+                    <td class="text-medium text-dark">South Central</td>
+                    <td class="text-medium text-dark">1,216</td>
+                    <td><span class="status-pill state-active">Active</span></td>
+                    <td class="text-right">
+                      <div class="action-buttons-flex">
+                        <button class="icon-btn-minimal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+                        <button class="icon-btn-minimal text-danger-hover"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="table-row">
+                    <td>
+                      <div class="name-cell font-semibold">
+                        <div class="avatar badge-light-orange">FL</div>
+                        <span class="text-dark">Florida</span>
+                      </div>
+                    </td>
+                    <td class="text-medium text-dark">US-FL</td>
+                    <td class="text-medium text-dark">South East</td>
+                    <td class="text-medium text-dark">411</td>
+                    <td><span class="status-pill state-inactive">Inactive</span></td>
+                    <td class="text-right">
+                      <div class="action-buttons-flex">
+                        <button class="icon-btn-minimal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+                        <button class="icon-btn-minimal text-danger-hover"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Area -->
+          <div class="pagination-toolbar flex-between">
+            <div class="pagination-info text-muted">
+              Showing 1 to 5 of 52 states
+            </div>
+            <div class="pagination-controls flex-align gap-2">
+              <button class="page-btn page-btn-icon" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn">2</button>
+              <button class="page-btn">3</button>
+              <span class="page-dots">...</span>
+              <button class="page-btn">11</button>
+              <button class="page-btn page-btn-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cities Tab -->
+      <div *ngIf="activeTab === 'cities'" class="fade-in-up admin-white-theme">
+        
+        <div class="page-breadcrumb mb-6">
+          <span class="text-muted">Admin</span> 
+          <span class="chevron-separator">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </span> 
+          <span class="current">City Management</span>
+        </div>
+
+        <div class="tab-header flex-between mb-8">
+          <div>
+            <h2 class="page-title-lg">City Management</h2>
+            <p class="page-subtitle">Configure and monitor jurisdictional cities across the platform.</p>
+          </div>
+          <button class="btn-primary shadow-sm lg-btn" (click)="openNewCityModal()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>New City</span>
+          </button>
+        </div>
+
+        <div class="stats-grid stats-grid-auto mb-8">
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle purple-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#8B5CF6">
+                <path d="M15 11V5L12 2L9 5V7H3V21H21V11H15ZM7 19H5V17H7V19ZM7 15H5V13H7V15ZM7 11H5V9H7V11ZM13 19H11V17H13V19ZM13 15H11V13H13V15ZM13 11H11V9H13V11ZM13 7H11V5H13V7ZM19 19H17V17H19V19ZM19 15H17V13H19V15Z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Total Cities</span>
+              <h3>{{ cities.length > 0 ? cities.length : '1,240' }}</h3>
+            </div>
+          </div>
+          
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle green-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="var(--success)">
+                <path d="M12 2L2 22H22L12 2ZM12 6L18 18H6L12 6Z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Active Reports</span>
+              <h3>8,542</h3>
+            </div>
+          </div>
+
+          <div class="stat-card minimal-card">
+            <div class="stat-icon-wrapper rounded-circle yellow-light">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="#EAB308">
+                <path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-1-11v6h2v-6h-2zm0-4v2h2V7h-2z" />
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span>Alerts</span>
+              <h3>34</h3>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-card bg-white rounded-xl shadow-xs">
+          
+          <div class="table-toolbar flex-between">
+            <div class="search-bar border-bg minimal-search flex-1 max-w-md">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" placeholder="Search by city name or code...">
+            </div>
+
+            <div class="toolbar-actions flex-align gap-3">
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>All States</option>
+                  <option *ngFor="let state of states" [value]="state.id">{{state.stateName}}</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>All Cities</option>
+                  <option *ngFor="let city of cities" [value]="city.id">{{city.cityName}}</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>City Code</option>
+                  <option *ngFor="let city of cities" [value]="city.id">{{city.cityCode}}</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <div class="dropdown-wrapper minimal-select">
+                <select class="header-filter border-bg">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Inactive</option>
+                </select>
+                <svg class="dropdown-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <button class="btn-outline-minimal flex-align gap-2">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export</span>
+              </button>
+            </div>
+          </div>
+
+
+          <div class="table-container clean-table">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>CITY NAME</th>
+                  <th>CODE</th>
+                  <th>STATE</th>
+                  <th>STATUS</th>
+                  <th class="text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let city of cities" class="table-row">
+                  <td>
+                    <div class="name-cell font-semibold">
+                      <div class="avatar badge-light-orange">{{ city.cityCode ? city.cityCode : 'CT' }}</div>
+                      <span class="text-dark">{{ city.cityName || 'Unknown City' }}</span>
+                    </div>
+                  </td>
+                  <td class="text-medium text-dark">
+                    US-{{ city.cityCode }}
+                  </td>
+                  <td class="text-medium text-dark">
+                    {{ city.state?.stateName || 'Assigned State' }}
+                  </td>
+                  <td>
+                    <span class="status-pill state-active">Active</span>
+                  </td>
+                  <td class="text-right">
+                    <div class="action-buttons-flex">
+                      <button class="icon-btn-minimal" aria-label="Edit" title="Edit">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M12 20h9"></path>
+                          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                        </svg>
+                      </button>
+                      <button class="icon-btn-minimal text-danger-hover" aria-label="Delete" title="Delete" (click)="deleteCity(city.id)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polyline points="3 6 5 6 21 6"></polyline>
+                          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+
+                <ng-container *ngIf="cities.length === 0">
+                  <tr class="table-row">
+                    <td>
+                      <div class="name-cell font-semibold">
+                        <div class="avatar badge-light-orange">LA</div>
+                        <span class="text-dark">Los Angeles</span>
+                      </div>
+                    </td>
+                    <td class="text-medium text-dark">US-LA</td>
+                    <td class="text-medium text-dark">California</td>
+                    <td><span class="status-pill state-active">Active</span></td>
+                    <td class="text-right">
+                      <div class="action-buttons-flex">
+                        <button class="icon-btn-minimal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+                        <button class="icon-btn-minimal text-danger-hover"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="table-row">
+                    <td>
+                      <div class="name-cell font-semibold">
+                        <div class="avatar badge-light-orange">AU</div>
+                        <span class="text-dark">Austin</span>
+                      </div>
+                    </td>
+                    <td class="text-medium text-dark">US-AU</td>
+                    <td class="text-medium text-dark">Texas</td>
+                    <td><span class="status-pill state-active">Active</span></td>
+                    <td class="text-right">
+                      <div class="action-buttons-flex">
+                        <button class="icon-btn-minimal"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></button>
+                        <button class="icon-btn-minimal text-danger-hover"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </table>
+            </div>
+          </div>
+
+          <!-- Pagination Area -->
+          <div class="pagination-toolbar flex-between">
+            <div class="pagination-info text-muted">
+              Showing 1 to {{ cities.length }} of {{ cities.length }} cities
+            </div>
+            <div class="pagination-controls flex-align gap-2">
+              <button class="page-btn page-btn-icon" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button class="page-btn active">1</button>
+              <button class="page-btn page-btn-icon" disabled>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
+      </div>
+
+      <!-- Municipal Tab -->
+      <div *ngIf="activeTab === 'municipal'" class="fade-in-up municipal-view-tab admin-white-theme" style="min-height: calc(100vh - 70px);">
+        <!-- Tab Content Header -->
+        <div class="tab-header flex-between mb-8" style="padding: 0.5rem 0;">
+          <div>
+            <h2 class="page-title-lg" style="font-size: 1.25rem; font-weight: 700; color: #111827;">Municipal Entities</h2>
+            <p class="page-subtitle" style="font-size: 0.875rem; color: #6b7280;">Manage and oversee all registered municipal organizations.</p>
+          </div>
+          <div class="header-actions">
+            <button class="btn-new-entity" (click)="openNewMunicipalModal()">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              <span>New Entity</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Overview Row -->
+        <div class="stats-grid mb-8" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+          <div class="municipal-stat-card">
+            <div class="municipal-stat-icon-bg bg-orange-soft">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3ZM9 17H7V15H9V17ZM9 13H7V11H9V13ZM9 9H7V7H9V9ZM13 17H11V15H13V17ZM13 13H11V11H13V13ZM13 9H11V7H13V9ZM17 17H15V15H17V17ZM17 13H15V11H17V13ZM17 9H15V7H17V9Z"/></svg>
+            </div>
+            <div class="municipal-stat-info">
+              <h3>{{ municipalDepartments.length }}</h3>
+              <p>Total Municipalities</p>
+            </div>
+          </div>
+
+          <div class="municipal-stat-card">
+            <div class="municipal-stat-icon-bg bg-blue-soft">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill-opacity="0.2"/><circle cx="12" cy="12" r="6"/></svg>
+            </div>
+            <div class="municipal-stat-info">
+              <h3>{{ municipalDepartments.length }}</h3>
+              <p>Active Entities</p>
+            </div>
+          </div>
+
+          <div class="municipal-stat-card">
+            <div class="municipal-stat-icon-bg bg-green-soft">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1Z"/></svg>
+            </div>
+            <div class="municipal-stat-info">
+              <h3>0</h3>
+              <p>Pending Approval</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Directory Table Card -->
+        <div class="table-card bg-white rounded-xl shadow-xs" style="border: 1px solid #E5E7EB; overflow: hidden;">
+          <div class="table-toolbar flex-between" style="padding: 1.25rem 1.5rem; border-bottom: 1px solid #F3F4F6;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700; color: #111827;">Management Directory</h3>
+            </div>
+            <div class="toolbar-actions flex-align gap-3">
+              <button class="btn-outline-minimal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 3H2l8 9.46V19l4 2v-8.46L22 3z"></path></svg>
+                <span>Filter</span>
+              </button>
+              <button class="btn-outline-minimal">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                <span>Export</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead style="background: #FAFAFB; border-bottom: 1px solid #F3F4F6;">
+                <tr>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Municipality Name</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">City</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Municipal ID</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Status</th>
+                  <th style="padding: 1rem 1.5rem; text-align: right; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dept of municipalDepartments" style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                      <div class="avatar" style="background: #FFF7ED; color: #EA580C; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700;">
+                        {{ dept.name.substring(0,1) }}
+                      </div>
+                      <span style="font-size: 0.875rem; font-weight: 600; color: #111827;">{{ dept.name }}</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; font-size: 0.875rem; color: #4B5563;">{{ dept.city?.cityName }}</td>
+                  <td style="padding: 1rem 1.5rem; font-size: 0.875rem; color: #4B5563;">{{ dept.municipalId }}</td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="status-pill-municipal status-active">
+                      <i class="status-dot"></i>
+                      Active
+                    </span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="municipal-action-btn">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+                    </button>
+                  </td>
+                </tr>
+                <tr *ngIf="municipalDepartments.length === 0">
+                  <td colspan="5" style="padding: 3rem; text-align: center; color: #6B7280;">No municipalities found.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Department Management Tab -->
+      <div *ngIf="activeTab === 'department'" class="fade-in-up department-view-tab admin-white-theme" style="min-height: calc(100vh - 70px);">
+        <!-- Tab Content Header -->
+        <div class="tab-header flex-between mb-8" style="padding: 0.5rem 0;">
+          <div>
+            <h2 class="page-title-lg" style="font-size: 1.25rem; font-weight: 700; color: #111827;">Department Management</h2>
+          </div>
+          <div class="header-actions">
+            <div class="search-bar border-bg minimal-search" style="width: 300px;">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input type="text" placeholder="Search departments...">
+            </div>
+            <button class="icon-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 22C13.1 22 14 21.1 14 20H10C10 21.1 10.9 22 12 22ZM18 16V11C18 7.93 16.36 5.36 13.5 4.68V4C13.5 3.17 12.83 2.5 12 2.5C11.17 2.5 10.5 3.17 10.5 4V4.68C7.63 5.36 6 7.92 6 11V16L4 18V19H20V18L18 16Z" />
+              </svg>
+              <span class="notification-dot" style="top: 2px; right: 2px;"></span>
+            </button>
+            <button class="icon-btn">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19.14 12.94C19.18 12.63 19.2 12.32 19.2 12C19.2 11.68 19.18 11.37 19.14 11.06L21.14 9.5C21.32 9.36 21.37 9.1 21.27 8.91L19.37 5.62C19.27 5.43 19.03 5.35 18.84 5.42L16.48 6.37C15.99 5.99 15.46 5.67 14.88 5.43L14.52 2.92C14.49 2.7 14.3 2.53 14.07 2.53H10.27C10.05 2.53 9.86 2.7 9.83 2.92L9.47 5.43C8.89 5.67 8.36 6.01 7.87 6.37L5.5 5.42C5.31 5.34 5.08 5.43 4.98 5.62L3.08 8.91C2.98 9.1 3.03 9.36 3.21 9.5L5.21 11.06C5.17 11.37 5.15 11.68 5.15 12C5.15 12.32 5.17 12.63 5.21 12.94L3.21 14.5C3.03 14.64 2.98 14.9 3.08 15.09L4.98 18.38C5.08 18.57 5.31 18.66 5.51 18.58L7.87 17.63C8.36 18.01 8.89 18.33 9.47 18.57L9.83 21.08C9.86 21.3 10.05 21.47 10.27 21.47H14.07C14.3 21.47 14.49 21.3 14.52 21.08L14.88 18.57C15.46 18.33 15.99 17.99 16.48 17.63L18.84 18.58C19.03 18.66 19.27 18.57 19.37 18.38L21.27 15.09C21.37 14.9 21.32 14.64 21.14 14.5L19.14 12.94ZM12 15.5C10.07 15.5 8.5 13.93 8.5 12C8.5 10.07 10.07 8.5 12 8.5C13.93 8.5 15.5 10.07 15.5 12C15.5 13.93 13.93 15.5 12 15.5Z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Stats Overview Row -->
+        <div class="stats-grid mb-8" style="grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+          <div class="dept-stat-card">
+            <div class="dept-stat-header">
+              <span class="dept-stat-label">Total Departments</span>
+              <div class="dept-stat-icon-wrapper orange-light-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L4.5 20.29L5.21 21L12 18L18.79 21L19.5 20.29L12 2Z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="dept-stat-value">42</div>
+            <div class="dept-stat-footer">
+              <span class="trend-up-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg> +5%</span>
+              <span class="footer-text">from last month</span>
+            </div>
+          </div>
+
+          <div class="dept-stat-card">
+            <div class="dept-stat-header">
+              <span class="dept-stat-label">Active Employees</span>
+              <div class="dept-stat-icon-wrapper orange-light-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                   <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-8-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-8-3.5z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="dept-stat-value">1,284</div>
+            <div class="dept-stat-footer">
+              <span class="trend-up-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="18 15 12 9 6 15"></polyline></svg> +12%</span>
+              <span class="footer-text">new hires</span>
+            </div>
+          </div>
+
+          <div class="dept-stat-card">
+            <div class="dept-stat-header">
+              <span class="dept-stat-label">Budget Allocation</span>
+              <div class="dept-stat-icon-wrapper orange-light-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M21 7.28V5c0-1.1-.9-2-2-2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-2.28c.59-.35 1-.98 1-1.72V9c0-0.74-0.41-1.37-1-1.72zM20 9v6h-7V9h7zM5 19V5h14v2h-6c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h6v2H5z"/>
+                </svg>
+              </div>
+            </div>
+            <div class="dept-stat-value">$4.2M</div>
+            <div class="dept-stat-footer">
+              <span class="trend-down-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="6 9 12 15 18 9"></polyline></svg> -2%</span>
+              <span class="footer-text">optimized spend</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Directory Table Card -->
+        <div class="table-card bg-white rounded-xl shadow-xs" style="border: 1px solid #E5E7EB; overflow: hidden; margin-top: 2rem;">
+          <div class="table-toolbar flex-between" style="padding: 1.25rem 1.5rem; border-bottom: 1px solid #F3F4F6;">
+            <div>
+              <h3 style="font-size: 1rem; font-weight: 700; color: #111827;">Manage Departments</h3>
+            </div>
+            <div class="toolbar-actions">
+              <button class="btn-new-dept" (click)="openNewDeptModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>New Department</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container" style="overflow-x: auto;">
+            <table style="width: 100%; border-collapse: collapse;">
+              <thead style="background: #FAFAFB; border-bottom: 1px solid #F3F4F6;">
+                <tr>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Department Name</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Municipality</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Category</th>
+                  <th style="padding: 1rem 1.5rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Status</th>
+                  <th style="padding: 1rem 1.5rem; text-align: right; font-size: 0.75rem; font-weight: 600; color: #6B7280; text-transform: uppercase;">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Sample Row 1: Waste Management -->
+                <tr style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">Waste Management</span>
+                      <span class="cell-secondary">ID: WM-204-A</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">Central District</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-waste">WASTE</span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-active"></span>
+                      <span class="status-label">Active</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+
+                <!-- Sample Row 2: Water Supply -->
+                <tr style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">Water Supply</span>
+                      <span class="cell-secondary">ID: WS-881-B</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">North Zone</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-water">WATER</span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-active"></span>
+                      <span class="status-label">Active</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+
+                <!-- Sample Row 3: Road Maintenance -->
+                <tr style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">Road Maintenance</span>
+                      <span class="cell-secondary">ID: RD-312-F</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">East Sector</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-roads">ROADS</span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-maintenance"></span>
+                      <span class="status-label">Maintenance</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+
+                <!-- Sample Row 4: Parks & Recreation -->
+                <tr style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">Parks & Recreation</span>
+                      <span class="cell-secondary">ID: PK-005-Z</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">South Valley</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-social">SOCIAL</span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-active"></span>
+                      <span class="status-label">Active</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+
+                <!-- Sample Row 5: Urban Planning -->
+                <tr style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">Urban Planning</span>
+                      <span class="cell-secondary">ID: UP-449-C</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">Downtown Area</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-strategy">STRATEGY</span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-inactive"></span>
+                      <span class="status-label">Inactive</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+
+                <!-- Real Data Loop -->
+                <tr *ngFor="let dept of departments" style="border-bottom: 1px solid #F3F4F6;">
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="name-id-cell">
+                      <span class="cell-primary">{{ dept.name }}</span>
+                      <span class="cell-secondary">ID: {{ dept.deptCode || 'DEPT-X' }}</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;"><span class="cell-text">{{ dept.municipality?.name || 'Local District' }}</span></td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <span class="category-pill pill-strategy" [class.pill-waste]="dept.category === 'Waste'" [class.pill-water]="dept.category === 'Water'">
+                      {{ dept.category?.toUpperCase() || 'OTHER' }}
+                    </span>
+                  </td>
+                  <td style="padding: 1rem 1.5rem;">
+                    <div class="status-dot-group">
+                      <span class="status-dot dot-active"></span>
+                      <span class="status-label">Active</span>
+                    </div>
+                  </td>
+                  <td style="padding: 1rem 1.5rem; text-align: right;">
+                    <button class="edit-link-btn">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination Footer -->
+          <div class="pagination-toolbar flex-between" style="padding: 1rem 1.5rem; background: #fff;">
+            <div class="pagination-info" style="font-size: 0.8125rem; color: #6B7280;">
+              Showing 1 to 5 of {{ departments.length > 5 ? departments.length : 42 }} results
+            </div>
+            <div class="pagination-controls flex-align gap-2">
+              <button class="page-btn page-btn-icon" style="width: 32px; height: 32px; border: 1px solid #E5E7EB; border-radius: 0.375rem; background: #fff; display: flex; align-items: center; justify-content: center; color: #9ca3af;" disabled>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button class="page-btn active" style="width: 32px; height: 32px; background: #ea580c; color: #fff; border: 1px solid #ea580c; border-radius: 0.375rem; font-weight: 600; font-size: 0.8125rem;">1</button>
+              <button class="page-btn" style="width: 32px; height: 32px; background: #fff; color: #4B5563; border: 1px solid #E5E7EB; border-radius: 0.375rem; font-weight: 600; font-size: 0.8125rem;">2</button>
+              <button class="page-btn page-btn-icon" style="width: 32px; height: 32px; border: 1px solid #E5E7EB; border-radius: 0.375rem; background: #fff; display: flex; align-items: center; justify-content: center; color: #4B5563;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- Close content-container -->
+
+    <!-- New Department Modal -->
+    <div class="modal-backdrop" *ngIf="showNewDeptModal" (click)="closeNewDeptModal()">
+      <div class="modal-content-dept" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Create New Department</h2>
+          <button class="close-btn" (click)="closeNewDeptModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        
+        <form class="modal-form-dept" (submit)="$event.preventDefault(); saveDepartment()">
+          <div class="form-group">
+            <label>Municipality</label>
+            <select [(ngModel)]="deptForm.municipalId" name="municipalId" required class="form-select">
+              <option value="" disabled selected>Select Municipality</option>
+              <option *ngFor="let muni of municipalDepartments" [value]="muni.municipalId">{{ muni.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Department Name</label>
+            <input type="text" [(ngModel)]="deptForm.name" name="name" placeholder="e.g. Waste Management" required class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>Department Code</label>
+            <input type="text" [(ngModel)]="deptForm.deptCode" name="deptCode" placeholder="e.g. WM-204" required class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <select [(ngModel)]="deptForm.category" name="category" required class="form-select">
+              <option value="" disabled selected>Select Category</option>
+              <option value="Waste">Waste Management</option>
+              <option value="Water">Water Supply</option>
+              <option value="Roads">Road Maintenance</option>
+              <option value="Social">Social Services</option>
+              <option value="Strategy">Urban Planning</option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeNewDeptModal()">Cancel</button>
+            <button type="submit" class="btn-primary-dept">Create Department</button>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <div class="table-section">
-      <h3>All Cities</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>State</th>
-            <th>City Code</th>
-            <th>City Name</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let city of cities">
-            <td>{{ city.id }}</td>
-            <td>{{ city.state?.stateName }}</td>
-            <td>{{ city.cityCode }}</td>
-            <td>{{ city.cityName }}</td>
-            <td>
-              <button class="btn-delete" (click)="deleteCity(city.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+    <!-- New Municipal Entity Modal -->
+    <div class="modal-backdrop" *ngIf="showNewMunicipalModal" (click)="closeNewMunicipalModal()">
+      <div class="modal-content-dept" (click)="$event.stopPropagation()" style="max-width: 600px;">
+        <div class="modal-header">
+          <h2 class="modal-title">Create Municipal Entity</h2>
+          <button class="close-btn" (click)="closeNewMunicipalModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        
+        <form class="modal-form-dept" (submit)="$event.preventDefault(); createMunicipalDepartment()">
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>City Selection</label>
+              <select [(ngModel)]="municipalForm.cityId" name="cityId" required class="form-select">
+                <option value="" disabled selected>Select City</option>
+                <option *ngFor="let city of cities" [value]="city.cityId">{{ city.cityName }}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Municipal ID</label>
+              <input type="text" [(ngModel)]="municipalForm.municipalId" name="municipalId" placeholder="e.g. MUNI-001" required class="form-input">
+            </div>
+          </div>
 
-  <!-- Municipal Departments Tab -->
-  <div *ngIf="activeTab === 'municipal'" class="tab-content">
-    <h2>Manage Municipal Departments</h2>
-    
-    <div class="form-section">
-      <h3>Add New Municipal Department</h3>
-      <form (ngSubmit)="createMunicipalDepartment()">
-        <div class="form-group">
-          <label>Select City:</label>
-          <select [(ngModel)]="municipalForm.cityId" name="cityId" required>
-            <option value="">-- Select City --</option>
-            <option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Municipal ID:</label>
-          <input type="text" [(ngModel)]="municipalForm.municipalId" name="municipalId" required>
-        </div>
-        <div class="form-group">
-          <label>Department Name:</label>
-          <input type="text" [(ngModel)]="municipalForm.name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label>Mobile Number:</label>
-          <input type="text" [(ngModel)]="municipalForm.mobileNumber" name="mobileNumber" required>
-        </div>
-        <div class="form-group">
-          <label>Location Link:</label>
-          <input type="text" [(ngModel)]="municipalForm.locationLink" name="locationLink" required>
-        </div>
-        <div class="form-group">
-          <label>Office Images (URL):</label>
-          <input type="text" [(ngModel)]="municipalForm.officeImages" name="officeImages">
-        </div>
-        <div class="form-group">
-          <label>Pincode:</label>
-          <input type="text" [(ngModel)]="municipalForm.pincode" name="pincode" required>
-        </div>
-        <div class="form-group">
-          <label>Address:</label>
-          <textarea [(ngModel)]="municipalForm.address" name="address"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Assign User:</label>
-          <select [(ngModel)]="municipalForm.assignedUserId" name="assignedUserId">
-            <option value="">-- Select User (Optional) --</option>
-            <option *ngFor="let user of users" [value]="user.id">{{ user.name }} ({{ user.email }})</option>
-          </select>
-        </div>
-        <button type="submit" class="btn-primary">Add Municipal Department</button>
-      </form>
+          <div class="form-group">
+            <label>Municipality Name</label>
+            <input type="text" [(ngModel)]="municipalForm.name" name="name" placeholder="e.g. North Zone Municipal" required class="form-input">
+          </div>
+
+          <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input type="text" [(ngModel)]="municipalForm.mobileNumber" name="mobileNumber" placeholder="Primary Contact Number" class="form-input">
+            </div>
+            <div class="form-group">
+              <label>Pincode</label>
+              <input type="text" [(ngModel)]="municipalForm.pincode" name="pincode" placeholder="6-digit Pincode" class="form-input">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Office Address</label>
+            <textarea [(ngModel)]="municipalForm.address" name="address" placeholder="Official Registered Address" class="form-input" style="height: 100px; resize: none;"></textarea>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeNewMunicipalModal()">Cancel</button>
+            <button type="submit" class="btn-primary-dept">Create Entity</button>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <div class="table-section">
-      <h3>All Municipal Departments</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>City</th>
-            <th>Municipal ID</th>
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Pincode</th>
-            <th>Assigned User</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let dept of municipalDepartments">
-            <td>{{ dept.id }}</td>
-            <td>{{ dept.city?.cityName }}</td>
-            <td>{{ dept.municipalId }}</td>
-            <td>{{ dept.name }}</td>
-            <td>{{ dept.mobileNumber }}</td>
-            <td>{{ dept.pincode }}</td>
-            <td>{{ dept.assignedUser?.name || 'Not Assigned' }}</td>
-            <td>
-              <button class="btn-delete" (click)="deleteMunicipalDepartment(dept.id)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- New City Modal -->
+    <div class="modal-backdrop" *ngIf="showNewCityModal" (click)="closeNewCityModal()">
+      <div class="modal-content-dept" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Add New City</h2>
+          <button class="close-btn" (click)="closeNewCityModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        
+        <form class="modal-form-dept" (submit)="$event.preventDefault(); createCity()">
+          <div class="form-group">
+            <label>State Selection</label>
+            <select [(ngModel)]="cityForm.stateId" name="stateId" required class="form-select">
+              <option value="" disabled selected>Select State</option>
+              <option *ngFor="let state of states" [value]="state.stateId">{{ state.stateName }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>City Name</label>
+            <input type="text" [(ngModel)]="cityForm.cityName" name="cityName" placeholder="e.g. Mumbai" required class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>City Code</label>
+            <input type="text" [(ngModel)]="cityForm.cityCode" name="cityCode" placeholder="e.g. MUM" required class="form-input">
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeNewCityModal()">Cancel</button>
+            <button type="submit" class="btn-primary-dept">Add City</button>
+          </div>
+        </form>
+      </div>
     </div>
-  </div>
-</div>
+    <!-- New State Modal -->
+    <div class="modal-backdrop" *ngIf="showNewStateModal" (click)="closeNewStateModal()">
+      <div class="modal-content-dept" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2 class="modal-title">Add New State</h2>
+          <button class="close-btn" (click)="closeNewStateModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        
+        <form class="modal-form-dept" (submit)="$event.preventDefault(); createState()">
+          <div class="form-group">
+            <label>State Name</label>
+            <select [(ngModel)]="stateForm.stateName" name="stateName" (change)="onStateNameChange()" required class="form-select">
+              <option value="" disabled selected>Select State</option>
+              <option *ngFor="let s of indianStates" [value]="s.name">{{ s.name }}</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>State Code</label>
+            <select [(ngModel)]="stateForm.stateCode" name="stateCode" (change)="onStateCodeChange()" required class="form-select">
+              <option value="" disabled selected>Select Code</option>
+              <option *ngFor="let s of indianStates" [value]="s.code">{{ s.code }}</option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" (click)="closeNewStateModal()">Cancel</button>
+            <button type="submit" class="btn-primary-dept">Add State</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main> <!-- Close main-wrapper -->
+</div> <!-- Close admin-layout -->

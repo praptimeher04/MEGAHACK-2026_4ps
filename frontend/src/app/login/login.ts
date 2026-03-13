@@ -39,7 +39,7 @@ export class LoginComponent {
 
     console.log('Attempting login with:', this.loginData);
 
-    this.http.post<any>('http://localhost:8089/api/auth/login', this.loginData)
+    this.http.post<any>('http://localhost:8090/api/auth/login', this.loginData)
       .subscribe({
         next: (response) => {
           console.log('Login response:', response);

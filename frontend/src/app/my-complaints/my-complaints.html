@@ -1,60 +1,170 @@
-<div class="my-complaints-screen">
-  <!-- Header -->
-  <header class="screen-header">
-    <button class="back-link" routerLink="/dashboard/home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M15 18l-6-6 6-6"/>
-      </svg>
-    </button>
-    <h1 class="header-title">My Complaints</h1>
-    <div class="header-spacer"></div>
-  </header>
-
-  <!-- Tab Switcher -->
-  <div class="tabs-wrapper">
-    <div class="pill-switcher">
-      <button 
-        [class.active]="activeTab === 'in-process'" 
-        (click)="setActiveTab('in-process')"
-        class="pill-btn">
-        In Process
-      </button>
-      <button 
-        [class.active]="activeTab === 'resolved'" 
-        (click)="setActiveTab('resolved')"
-        class="pill-btn">
-        Resolved
-      </button>
-    </div>
+<div class="tab-content fade-in">
+  <div class="header-section">
+    <h1>My Complaints</h1>
+    <p>Track the status of your previously registered complaints and issues.</p>
   </div>
 
-  <!-- Content Area -->
-  <div class="content-viewport">
-    <!-- Empty State -->
-    <div *ngIf="complaints.length === 0" class="empty-view">
-      <div class="empty-illustration">
-        <div class="icon-circle">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8">
-            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
-            <path d="M9 12h6"></path>
-            <path d="M12 9v6"></path>
-            <circle cx="18" cy="18" r="3" fill="#f8f9fb" stroke="#64748b"></circle>
-            <path d="M18 16.5v3"></path>
-            <path d="M16.5 18h3"></path>
-          </svg>
+  <div class="complaints-list">
+    <!-- Complaint Item -->
+    <div class="complaint-card glass-card">
+      <div class="complaint-header">
+        <div class="complaint-title">
+          <span class="id-badge">#1025</span>
+          <h3>Dashboard not loading appropriately</h3>
         </div>
+        <span class="status-badge status-pending">Pending</span>
       </div>
-      <h2 class="empty-title">No complaints found</h2>
-      <p class="empty-text">You haven't filed any complaints yet. Your filed complaints will appear here.</p>
-      <button class="btn-primary-orange" routerLink="/dashboard/register-complaint">
-        File a Complaint
-      </button>
+      <div class="complaint-body">
+        <p>The dashboard tab occasionally freezes when navigating from the home page. Refreshing fixes the issue
+          temporarily.</p>
+      </div>
+      <div class="complaint-footer">
+        <span class="date">Registered: Oct 25, 2026</span>
+        <button class="btn-text">View Details →</button>
+      </div>
     </div>
 
-    <!-- Complaints List -->
-    <div *ngIf="complaints.length > 0" class="list-view">
-      <!-- Future implementation -->
+    <!-- Complaint Item -->
+    <div class="complaint-card glass-card">
+      <div class="complaint-header">
+        <div class="complaint-title">
+          <span class="id-badge">#1024</span>
+          <h3>Billing cycle discrepancy</h3>
+        </div>
+        <span class="status-badge status-resolved">Resolved</span>
+      </div>
+      <div class="complaint-body">
+        <p>My last invoice showed a charge for a premium feature I didn't opt into. Please refund the difference.</p>
+      </div>
+      <div class="complaint-footer">
+        <span class="date">Registered: Oct 20, 2026</span>
+        <button class="btn-text">View Details →</button>
+      </div>
     </div>
   </div>
 </div>
 
+<style>
+  .fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .header-section {
+    margin-bottom: 2rem;
+  }
+
+  .header-section h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-section p {
+    color: var(--text-secondary);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .complaint-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+
+  .complaint-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .complaint-title h3 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  .id-badge {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+  }
+
+  .status-pending {
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbd38d;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  .status-resolved {
+    background: rgba(16, 185, 129, 0.15);
+    color: #6ee7b7;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+  }
+
+  .complaint-body {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+
+  .complaint-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .date {
+    font-size: 0.875rem;
+    color: #64748b;
+  }
+
+  .btn-text {
+    background: none;
+    color: var(--accent-color);
+    border: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .btn-text:hover {
+    color: var(--accent-hover);
+  }
+</style>

@@ -11,15 +11,48 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './super-admin.css',
 })
 export class SuperAdminComponent implements OnInit {
-  activeTab = 'states';
-  
+  activeTab = 'dashboard';
+  showStateForm = false;
+
+
   states: any[] = [];
   stateForm = { stateCode: '', stateName: '' };
-  
+
   cities: any[] = [];
   cityForm = { stateId: '', cityCode: '', cityName: '' };
-  
+
   municipalDepartments: any[] = [];
+  departments: any[] = [];
+  showNewDeptModal: boolean = false;
+  showNewMunicipalModal: boolean = false;
+  showNewCityModal: boolean = false;
+  showNewStateModal: boolean = false;
+  
+  indianStates = [
+    { name: 'Andhra Pradesh', code: 'AP' }, { name: 'Arunachal Pradesh', code: 'AR' },
+    { name: 'Assam', code: 'AS' }, { name: 'Bihar', code: 'BR' },
+    { name: 'Chhattisgarh', code: 'CG' }, { name: 'Goa', code: 'GA' },
+    { name: 'Gujarat', code: 'GJ' }, { name: 'Haryana', code: 'HR' },
+    { name: 'Himachal Pradesh', code: 'HP' }, { name: 'Jharkhand', code: 'JH' },
+    { name: 'Karnataka', code: 'KA' }, { name: 'Kerala', code: 'KL' },
+    { name: 'Madhya Pradesh', code: 'MP' }, { name: 'Maharashtra', code: 'MH' },
+    { name: 'Manipur', code: 'MN' }, { name: 'Meghalaya', code: 'ML' },
+    { name: 'Mizoram', code: 'MZ' }, { name: 'Nagaland', code: 'NL' },
+    { name: 'Odisha', code: 'OR' }, { name: 'Punjab', code: 'PB' },
+    { name: 'Rajasthan', code: 'RJ' }, { name: 'Sikkim', code: 'SK' },
+    { name: 'Tamil Nadu', code: 'TN' }, { name: 'Telangana', code: 'TG' },
+    { name: 'Tripura', code: 'TR' }, { name: 'Uttar Pradesh', code: 'UP' },
+    { name: 'Uttarakhand', code: 'UK' }, { name: 'West Bengal', code: 'WB' },
+    { name: 'Delhi', code: 'DL' }, { name: 'Jammu & Kashmir', code: 'JK' },
+    { name: 'Ladakh', code: 'LA' }, { name: 'Puducherry', code: 'PY' }
+  ];
+
+  deptForm = {
+    municipalId: '',
+    name: '',
+    deptCode: '',
+    category: ''
+  };
   municipalForm = {
     cityId: '',
     municipalId: '',
@@ -31,10 +64,10 @@ export class SuperAdminComponent implements OnInit {
     address: '',
     assignedUserId: ''
   };
-  
+
   users: any[] = [];
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit() {
     const userType = localStorage.getItem('userType');
@@ -46,6 +79,7 @@ export class SuperAdminComponent implements OnInit {
     this.loadStates();
     this.loadCities();
     this.loadMunicipalDepartments();
+    this.loadDepartments();
     this.loadUsers();
   }
 
@@ -61,15 +95,46 @@ export class SuperAdminComponent implements OnInit {
       });
   }
 
+  onStateNameChange() {
+    const selected = this.indianStates.find(s => s.name === this.stateForm.stateName);
+    if (selected) {
+      this.stateForm.stateCode = selected.code;
+    }
+  }
+
+  onStateCodeChange() {
+    const selected = this.indianStates.find(s => s.code === this.stateForm.stateCode);
+    if (selected) {
+      this.stateForm.stateName = selected.name;
+    }
+  }
+
+  openNewStateModal() {
+    this.showNewStateModal = true;
+    this.stateForm = { stateCode: '', stateName: '' };
+  }
+
+  closeNewStateModal() {
+    this.showNewStateModal = false;
+  }
+
   createState() {
+    if (!this.stateForm.stateName || !this.stateForm.stateCode) {
+      alert('Please fill all fields');
+      return;
+    }
+
     this.http.post('http://localhost:8089/api/admin/states', this.stateForm)
       .subscribe({
-        next: () => {
-          alert('State created successfully');
-          this.stateForm = { stateCode: '', stateName: '' };
+        next: (response) => {
+          console.log('State created successfully', response);
+          this.closeNewStateModal();
           this.loadStates();
         },
-        error: (error) => alert(error.error.message || 'Error creating state')
+        error: (error) => {
+          console.error('Error creating state', error);
+          alert('Error: ' + (error.error?.message || error.message));
+        }
       });
   }
 
@@ -94,15 +159,32 @@ export class SuperAdminComponent implements OnInit {
       });
   }
 
+  openNewCityModal() {
+    this.showNewCityModal = true;
+    this.cityForm = { stateId: '', cityCode: '', cityName: '' };
+  }
+
+  closeNewCityModal() {
+    this.showNewCityModal = false;
+  }
+
   createCity() {
+    if (!this.cityForm.stateId || !this.cityForm.cityName || !this.cityForm.cityCode) {
+      alert('Please fill all fields');
+      return;
+    }
+
     this.http.post('http://localhost:8089/api/admin/cities', this.cityForm)
       .subscribe({
-        next: () => {
-          alert('City created successfully');
-          this.cityForm = { stateId: '', cityCode: '', cityName: '' };
+        next: (response) => {
+          console.log('City created successfully', response);
+          this.closeNewCityModal();
           this.loadCities();
         },
-        error: (error) => alert(error.error.message || 'Error creating city')
+        error: (error) => {
+          console.error('Error creating city', error);
+          alert('Error: ' + (error.error?.message || error.message));
+        }
       });
   }
 
@@ -127,27 +209,6 @@ export class SuperAdminComponent implements OnInit {
       });
   }
 
-  createMunicipalDepartment() {
-    this.http.post('http://localhost:8089/api/admin/municipal-departments', this.municipalForm)
-      .subscribe({
-        next: () => {
-          alert('Municipal department created successfully');
-          this.municipalForm = {
-            cityId: '',
-            municipalId: '',
-            name: '',
-            mobileNumber: '',
-            locationLink: '',
-            officeImages: '',
-            pincode: '',
-            address: '',
-            assignedUserId: ''
-          };
-          this.loadMunicipalDepartments();
-        },
-        error: (error) => alert(error.error.message || 'Error creating municipal department')
-      });
-  }
 
   deleteMunicipalDepartment(id: number) {
     if (confirm('Are you sure you want to delete this municipal department?')) {
@@ -160,6 +221,72 @@ export class SuperAdminComponent implements OnInit {
           error: (error) => alert(error.error.message || 'Error deleting municipal department')
         });
     }
+  }
+
+  loadDepartments() {
+    this.http.get<any[]>('http://localhost:8089/api/admin/departments')
+      .subscribe({
+        next: (data) => this.departments = data,
+        error: (error) => console.error('Error loading departments', error)
+      });
+  }
+
+  openNewDeptModal() {
+    this.showNewDeptModal = true;
+  }
+
+  closeNewDeptModal() {
+    this.showNewDeptModal = false;
+    this.deptForm = { municipalId: '', name: '', deptCode: '', category: '' };
+  }
+
+  saveDepartment() {
+    if (!this.deptForm.municipalId || !this.deptForm.name || !this.deptForm.deptCode || !this.deptForm.category) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    this.http.post('http://localhost:8089/api/admin/departments', this.deptForm)
+      .subscribe({
+        next: (response) => {
+          console.log('Department created successfully', response);
+          this.closeNewDeptModal();
+          this.loadDepartments();
+        },
+        error: (error) => {
+          console.error('Error creating department', error);
+          alert('Error creating department: ' + (error.error?.message || error.message));
+        }
+      });
+  }
+
+  openNewMunicipalModal() {
+    this.showNewMunicipalModal = true;
+    this.municipalForm = { cityId: '', municipalId: '', name: '', mobileNumber: '', locationLink: '', officeImages: '', pincode: '', address: '', assignedUserId: '' };
+  }
+
+  closeNewMunicipalModal() {
+    this.showNewMunicipalModal = false;
+  }
+
+  createMunicipalDepartment() {
+    if (!this.municipalForm.cityId || !this.municipalForm.name || !this.municipalForm.municipalId) {
+      alert('Please fill all required fields');
+      return;
+    }
+
+    this.http.post('http://localhost:8089/api/admin/municipal', this.municipalForm)
+      .subscribe({
+        next: (response) => {
+          console.log('Municipal entity created successfully', response);
+          this.closeNewMunicipalModal();
+          this.loadMunicipalDepartments();
+        },
+        error: (error) => {
+          console.error('Error creating municipal entity', error);
+          alert('Error: ' + (error.error?.message || error.message));
+        }
+      });
   }
 
   loadUsers() {

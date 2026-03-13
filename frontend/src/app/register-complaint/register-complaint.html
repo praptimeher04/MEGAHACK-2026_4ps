@@ -1,102 +1,191 @@
-<div class="register-screen-wrapper">
-  <!-- Dynamic Header -->
-  <header class="app-header">
-    <button class="back-btn" routerLink="/dashboard/home">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-    </button>
-    <div class="header-content">
-      <h1 class="main-title">Register a Complaint</h1>
-      <p class="sub-text">Help us keep our city beautiful</p>
-    </div>
-  </header>
-
-  <!-- Main Scrollable Area -->
-  <div class="form-viewport">
-    <div class="complaint-card">
-      
-      <!-- Issue Category -->
-      <div class="field-group">
-        <label class="field-label">Issue Category</label>
-        <div class="styled-dropdown" (click)="toggleDropdown()">
-          <span class="dropdown-placeholder" [class.has-value]="selectedCategory !== 'Select category'">
-            {{ selectedCategory }}
-          </span>
-          <svg class="chevron-icon" [class.flipped]="isDropdownOpen" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <polyline points="6 9 12 15 18 9"></polyline>
-          </svg>
-          
-          <div class="dropdown-panel" *ngIf="isDropdownOpen">
-            <div class="dropdown-option" *ngFor="let cat of categories" (click)="selectCategory(cat); $event.stopPropagation()">
-              {{ cat }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Location -->
-      <div class="field-group">
-        <label class="field-label">Location</label>
-        <div class="iconic-input">
-          <div class="lead-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="#F05A17">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-            </svg>
-          </div>
-          <input type="text" placeholder="Street address or landmark" class="plain-field">
-        </div>
-
-        <div class="interactive-map" (click)="openMap()">
-          <img src="assets/google_map_snippet.png" alt="Map Area" class="map-bg">
-          <div class="map-indicator">
-            <div class="indicator-inner"></div>
-            <div class="indicator-wave"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Description -->
-      <div class="field-group">
-        <label class="field-label">Description of Issue</label>
-        <textarea placeholder="Describe the problem in detail..." class="styled-textarea" rows="4"></textarea>
-      </div>
-
-      <!-- Photo Evidence -->
-      <div class="field-group">
-        <label class="field-label">Upload Photo Evidence</label>
-        <div class="upload-dropzone" (click)="fileInput.click()">
-          <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none" accept="image/*">
-          <div class="dropzone-content">
-            <div class="icon-circle-container">
-              <div class="icon-circle-bg">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#F05A17" stroke-width="2.2">
-                  <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                  <circle cx="12" cy="13" r="4"></circle>
-                </svg>
-                <div class="icon-plus-badge">+</div>
-              </div>
-            </div>
-            <h3 class="upload-title">Click to upload or drag and drop</h3>
-            <p class="upload-subtitle">PNG, JPG up to 10MB</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
+<div class="tab-content fade-in">
+  <div class="header-section">
+    <h1>Register a Complaint</h1>
+    <p>Please fill out the form below to submit a new issue or complaint.</p>
   </div>
 
-  <!-- Footer Actions -->
-  <footer class="footer-block">
-    <button class="primary-orange-btn">
-      <span>Submit Complaint</span>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-      </svg>
-    </button>
-    <p class="disclaimer">
-      By submitting, you agree to our Terms of Service. Your location will be shared with the municipal resolution team.
-    </p>
-  </footer>
+  <div class="form-container glass-card">
+    <form class="complaint-form">
+      <div class="form-row">
+        <div class="form-group flex-1">
+          <label>Category</label>
+          <select class="glass-input">
+            <option>Billing Issue</option>
+            <option>Technical Support</option>
+            <option>Feature Request</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div class="form-group flex-1">
+          <label>Priority</label>
+          <select class="glass-input">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+            <option>Critical</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Subject</label>
+        <input type="text" class="glass-input" placeholder="Brief description of the issue" />
+      </div>
+
+      <div class="form-group">
+        <label>Detailed Description</label>
+        <textarea class="glass-input" rows="6"
+          placeholder="Provide as much detail as possible to help us resolve this quickly..."></textarea>
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label class="remember-me">
+          <input type="checkbox" />
+          <span>I agree to the terms and policies regarding complaint registration.</span>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary">Cancel</button>
+        <button type="submit" class="btn-primary" style="margin-bottom: 0;">Submit Complaint</button>
+      </div>
+    </form>
+  </div>
 </div>
 
+<style>
+  .fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .header-section {
+    margin-bottom: 2rem;
+  }
+
+  .header-section h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-section p {
+    color: var(--text-secondary);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 2rem;
+  }
+
+  .form-container {
+    max-width: 800px;
+  }
+
+  .form-row {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .flex-1 {
+    flex: 1;
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  .glass-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(15, 23, 42, 0.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.5rem;
+    color: #fff;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+
+  select.glass-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem top 50%;
+    background-size: 0.65rem auto;
+  }
+
+  select.glass-input option {
+    background: var(--bg-color);
+    color: white;
+  }
+
+  .glass-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+
+  .checkbox-group {
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+</style>

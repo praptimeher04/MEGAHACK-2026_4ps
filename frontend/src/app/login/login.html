@@ -1,134 +1,190 @@
-<div class="auth-wrapper">
+<div class="auth-container">
   
-  <!-- LOGIN VIEW -->
-  <div class="auth-card fade-in" *ngIf="isLoginMode">
-    <div class="auth-header text-center">
-      <div class="header-avatar-wrapper">
-        <img src="user_avatar.png" alt="App Avatar" class="auth-avatar">
+  <!-- Left Branding Pane -->
+  <div class="auth-banner">
+    <div class="banner-content">
+      <div class="logo-container">
+        <div class="logo-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 21V8L12 3L20 8V21H14V14H10V21H4Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h2 class="logo-text">Municipal Portal</h2>
       </div>
-      <h1>Municipal</h1>
-      <p class="subtitle">Welcome back! Please enter your details.</p>
+      
+      <div class="banner-text-wrapper">
+        <h1 class="banner-heading">Modernizing<br>Civic Services.</h1>
+        <p class="banner-subheading">Access the transparency dashboard, manage municipal operations, and stay connected with real-time performance metrics.</p>
+      </div>
+
+      <div class="banner-stats">
+        <div class="stat">
+          <div class="stat-value">125.4k+</div>
+          <div class="stat-label">Platform Users</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">4,850</div>
+          <div class="stat-label">Municipalities</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">52</div>
+          <div class="stat-label">States Active</div>
+        </div>
+      </div>
     </div>
-
-    <form (submit)="onLogin($event)" class="auth-form">
-      <div class="form-group">
-        <label for="email">Email Address</label>
-        <div class="input-icon-wrapper">
-          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-          <input type="email" id="email" name="email" placeholder="name@company.com" [(ngModel)]="loginData.email" required />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="label-row">
-          <label for="password">Password</label>
-          <a href="#" class="forgot-link">Forgot Password?</a>
-        </div>
-        <div class="input-icon-wrapper">
-          <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-          <input type="password" id="password" name="password" placeholder="••••••••" [(ngModel)]="loginData.password" required />
-          <button type="button" class="icon-btn right-btn" aria-label="Toggle password visibility">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="form-options">
-        <label class="remember-me">
-          <input type="checkbox" />
-          <span>Remember me</span>
-        </label>
-      </div>
-
-      <button type="submit" class="btn-primary">Sign In</button>
-
-      <div class="divider">
-        <span>Or continue with</span>
-      </div>
-
-      <div class="social-login">
-        <button type="button" class="btn-social">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          Google
-        </button>
-        <button type="button" class="btn-social">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M15.42 10.45c-.03-2.58 2.07-3.83 2.16-3.89-1.22-1.83-3.11-2.09-3.79-2.12-1.61-.17-3.14.97-3.96.97-.83 0-2.09-.95-3.41-.93-1.74.03-3.34 1.04-4.24 2.64-1.84 3.25-.47 8.04 1.32 10.7 .88 1.29 1.91 2.74 3.27 2.68 1.3-.06 1.8-.86 3.38-.86 1.57 0 2.03.86 3.4.83 1.4-.03 2.3-1.33 3.17-2.64.99-1.48 1.41-2.92 1.43-3-2.13-1.01-2.09-3.76-2.05-3.78zM11.95 3.31c.71-.88 1.19-2.1 1.06-3.31-1.04.05-2.33.72-3.06 1.6-.64.76-1.21 1.99-1.05 3.18 1.16.1 2.34-.61 3.05-1.47z"/>
-          </svg>
-          Apple
-        </button>
-      </div>
-
-      <div class="switch-mode">
-        Don't have an account? <a href="#" (click)="toggleMode($event)">Create Account</a>
-      </div>
-    </form>
     
-    <div class="auth-footer text-center">
-      <a href="#">Terms of Service</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Help Center</a>
-    </div>
+    <!-- Decorative abstract background elements -->
+    <div class="deco-circle deco-1"></div>
+    <div class="deco-circle deco-2"></div>
   </div>
 
-  <!-- REGISTER VIEW -->
-  <div class="auth-card fade-in" *ngIf="!isLoginMode">
-    <div class="auth-header-top">
-      <button class="icon-btn back-btn" (click)="toggleMode()" aria-label="Go back">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      </button>
-      <h2 class="register-logo-text">Municipal</h2>
-    </div>
+  <!-- Right Form Pane -->
+  <div class="auth-form-pane">
+    <div class="form-wrapper">
 
-    <div class="text-left mb-6">
-      <h1>Create Account</h1>
-      <p class="subtitle">Join the Municipal community today.</p>
-    </div>
-
-    <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" class="auth-form">
-      <div class="form-group">
-        <label for="fullname">Full Name</label>
-        <div class="input-icon-wrapper">
-          <input type="text" id="fullname" name="name" class="plain-input" placeholder="Enter your full name" [(ngModel)]="registerData.name" required />
+      <!-- LOGIN VIEW -->
+      <div class="form-view fade-in-up" *ngIf="isLoginMode">
+        <div class="form-header">
+          <h2 class="form-title">Welcome back</h2>
+          <p class="form-subtitle">Please enter your details to sign in.</p>
         </div>
+
+        <form (submit)="onLogin($event)" class="custom-form">
+          <div class="form-group">
+            <label for="email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input type="email" id="email" name="email" class="form-input" placeholder="name@example.com" [(ngModel)]="loginData.email" required autocomplete="email" />
+            </div>
+          </div>
+
+          <div class="form-group mb-5">
+            <div class="label-row">
+              <label for="password" class="form-label">Password</label>
+              <a href="javascript:void(0)" class="link-forgot">Forgot Password?</a>
+            </div>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" [(ngModel)]="loginData.password" required autocomplete="current-password" />
+            </div>
+          </div>
+
+          <div class="form-options mb-6">
+            <label class="custom-checkbox">
+              <input type="checkbox" />
+              <span class="checkmark"></span>
+              <span class="checkbox-label">Remember me for 30 days</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="!loginData.email || !loginData.password">
+            <span>Sign In</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          </button>
+
+          <div class="form-divider">
+            <span>Or continue with</span>
+          </div>
+
+          <div class="social-login-grid">
+            <button type="button" class="btn-social">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+              </svg>
+              Google
+            </button>
+            <button type="button" class="btn-social">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M15.42 10.45c-.03-2.58 2.07-3.83 2.16-3.89-1.22-1.83-3.11-2.09-3.79-2.12-1.61-.17-3.14.97-3.96.97-.83 0-2.09-.95-3.41-.93-1.74.03-3.34 1.04-4.24 2.64-1.84 3.25-.47 8.04 1.32 10.7 .88 1.29 1.91 2.74 3.27 2.68 1.3-.06 1.8-.86 3.38-.86 1.57 0 2.03.86 3.4.83 1.4-.03 2.3-1.33 3.17-2.64.99-1.48 1.41-2.92 1.43-3-2.13-1.01-2.09-3.76-2.05-3.78zM11.95 3.31c.71-.88 1.19-2.1 1.06-3.31-1.04.05-2.33.72-3.06 1.6-.64.76-1.21 1.99-1.05 3.18 1.16.1 2.34-.61 3.05-1.47z" />
+              </svg>
+              Apple
+            </button>
+          </div>
+
+          <div class="form-footer">
+            Don't have an account? <a href="javascript:void(0)" class="link-primary" (click)="toggleMode($event)">Sign up here</a>
+          </div>
+        </form>
       </div>
 
-      <div class="form-group">
-        <label for="reg-email">Email Address</label>
-        <div class="input-icon-wrapper">
-          <input type="email" id="reg-email" name="email" class="plain-input" placeholder="Enter your email" [(ngModel)]="registerData.email" required />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="reg-phone">Phone Number</label>
-        <div class="input-icon-wrapper">
-          <input type="tel" id="reg-phone" name="mobileNumber" class="plain-input" placeholder="Enter your phone number" [(ngModel)]="registerData.mobileNumber" required />
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label for="reg-password">Password</label>
-        <div class="input-icon-wrapper">
-          <input type="password" id="reg-password" name="password" class="plain-input" placeholder="Create a password" [(ngModel)]="registerData.password" required />
-          <button type="button" class="icon-btn right-btn">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+      <!-- REGISTER VIEW -->
+      <div class="form-view fade-in-up" *ngIf="!isLoginMode">
+        
+        <div class="back-nav mb-4">
+          <button class="btn-back" (click)="toggleMode($event)" title="Go back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>Back</span>
           </button>
         </div>
+
+        <div class="form-header">
+          <h2 class="form-title">Create Account</h2>
+          <p class="form-subtitle">Join the portal to access civic services.</p>
+        </div>
+
+        <form #registerForm="ngForm" (ngSubmit)="onRegister(registerForm)" class="custom-form">
+          <div class="form-group">
+            <label for="fullname" class="form-label">Full Name</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              </span>
+              <input type="text" id="fullname" name="name" class="form-input" placeholder="John Doe" [(ngModel)]="registerData.name" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-email" class="form-label">Email Address</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </span>
+              <input type="email" id="reg-email" name="email" class="form-input" placeholder="name@example.com" [(ngModel)]="registerData.email" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="reg-phone" class="form-label">Phone Number</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+              </span>
+              <input type="tel" id="reg-phone" name="mobileNumber" class="form-input" placeholder="+1 (555) 000-0000" [(ngModel)]="registerData.mobileNumber" required />
+            </div>
+          </div>
+
+          <div class="form-group mb-6">
+            <label for="reg-password" class="form-label">Password</label>
+            <div class="input-container">
+              <span class="input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+              </span>
+              <input type="password" id="reg-password" name="password" class="form-input" placeholder="Create a strong password" [(ngModel)]="registerData.password" required />
+            </div>
+          </div>
+
+          <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
+            <span>Create Account</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5c-1.1 0-2 .9-2 2v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+          </button>
+
+          <p class="terms-text mt-4">
+            By creating an account, you agree to our <a href="javascript:void(0)" class="link-primary">Terms of Service</a> & <a href="javascript:void(0)" class="link-primary">Privacy Policy</a>
+          </p>
+
+          <div class="form-footer mt-6">
+            Already have an account? <a href="javascript:void(0)" class="link-primary" (click)="toggleMode($event)">Sign in here</a>
+          </div>
+        </form>
       </div>
 
-      <button type="submit" class="btn-primary mt-2">Create Account</button>
-
-      <p class="legal-text">
-        By clicking "Create Account", you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
-      </p>
-
-      <div class="switch-mode text-center mt-6">
-        Already have an account? <a href="#" (click)="toggleMode($event)">Log in here</a>
-      </div>
-    </form>
+    </div>
   </div>
-
 </div>

@@ -31,8 +31,7 @@ public class UserService {
         user.setMobileNumber(request.getMobileNumber());
         user.setPhoneNumber(request.getMobileNumber());
         user.setPassword(request.getPassword());
-        user.setUserType(0);
-        user.setUsername(request.getEmail());
+        user.setUserType(0); // Default user type
         user.setAddress("N/A");
         user.setCity("N/A");
         user.setPincode("000000");
