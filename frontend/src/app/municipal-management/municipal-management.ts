@@ -62,7 +62,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   loadDashboardData() {
-    this.http.get<any>('http://localhost:8089/api/municipal-management/stats')
+    this.http.get<any>('http://localhost:8090/api/municipal-management/stats')
       .subscribe({
         next: (data) => {
           this.stats = data;
@@ -72,7 +72,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   loadDepartments() {
-    this.http.get<any[]>('http://localhost:8089/api/admin/municipal-departments')
+    this.http.get<any[]>('http://localhost:8090/api/admin/municipal-departments')
       .subscribe({
         next: (data) => {
           this.departments = data;
@@ -83,7 +83,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   loadCities() {
-    this.http.get<any[]>('http://localhost:8089/api/admin/cities')
+    this.http.get<any[]>('http://localhost:8090/api/admin/cities')
       .subscribe({
         next: (data) => this.cities = data,
         error: (error) => console.error('Error loading cities', error)
@@ -91,7 +91,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   loadUsers() {
-    this.http.get<any[]>('http://localhost:8089/api/admin/users')
+    this.http.get<any[]>('http://localhost:8090/api/admin/users')
       .subscribe({
         next: (data) => this.users = data,
         error: (error) => console.error('Error loading users', error)
@@ -99,7 +99,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   loadComplaints() {
-    this.http.get<any[]>('http://localhost:8089/api/municipal-management/complaints')
+    this.http.get<any[]>('http://localhost:8090/api/municipal-management/complaints')
       .subscribe({
         next: (data) => {
           this.complaints = data;
@@ -116,7 +116,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   createDepartment() {
-    this.http.post('http://localhost:8089/api/admin/municipal-departments', this.departmentForm)
+    this.http.post('http://localhost:8090/api/admin/municipal-departments', this.departmentForm)
       .subscribe({
         next: () => {
           alert('Department created successfully');
@@ -139,7 +139,7 @@ export class MunicipalManagementComponent implements OnInit {
 
   deleteDepartment(id: number) {
     if (confirm('Are you sure you want to delete this department?')) {
-      this.http.delete(`http://localhost:8089/api/admin/municipal-departments/${id}`)
+      this.http.delete(`http://localhost:8090/api/admin/municipal-departments/${id}`)
         .subscribe({
           next: () => {
             alert('Department deleted successfully');
@@ -151,7 +151,7 @@ export class MunicipalManagementComponent implements OnInit {
   }
 
   updateComplaintStatus(complaintId: number, status: string) {
-    this.http.put(`http://localhost:8089/api/municipal-management/complaints/${complaintId}/status`, { status })
+    this.http.put(`http://localhost:8090/api/municipal-management/complaints/${complaintId}/status`, { status })
       .subscribe({
         next: () => {
           alert('Complaint status updated successfully');
