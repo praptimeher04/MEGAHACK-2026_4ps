@@ -11,6 +11,20 @@
         <div class="complaint-title">
           <span class="id-badge">#1025</span>
           <h3>Dashboard not loading appropriately</h3>
+  <!-- Content Area -->
+  <div class="content-viewport">
+    <!-- Empty State -->
+    <div *ngIf="filteredComplaints.length === 0" class="empty-view">
+      <div class="empty-illustration">
+        <div class="icon-circle">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="1.8">
+            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+            <path d="M9 12h6"></path>
+            <path d="M12 9v6"></path>
+            <circle cx="18" cy="18" r="3" fill="#f8f9fb" stroke="#64748b"></circle>
+            <path d="M18 16.5v3"></path>
+            <path d="M16.5 18h3"></path>
+          </svg>
         </div>
         <span class="status-badge status-pending">Pending</span>
       </div>
@@ -39,6 +53,26 @@
       <div class="complaint-footer">
         <span class="date">Registered: Oct 20, 2026</span>
         <button class="btn-text">View Details →</button>
+    <!-- Complaints List -->
+    <div *ngIf="filteredComplaints.length > 0" class="list-view">
+      <div *ngFor="let complaint of filteredComplaints" class="complaint-card">
+        <div class="complaint-header">
+          <h3>{{ complaint.title }}</h3>
+          <span class="status-badge" [ngClass]="complaint.status?.toLowerCase()">{{ complaint.status }}</span>
+        </div>
+        <p class="complaint-description">{{ complaint.description }}</p>
+        <div class="complaint-details">
+          <div class="detail-item">
+            <strong>Category:</strong> {{ complaint.category }}
+          </div>
+          <div class="detail-item">
+            <strong>Location:</strong> {{ complaint.location }}
+          </div>
+          <div class="detail-item">
+            <strong>Date:</strong> {{ complaint.createdDate | date:'short' }}
+          </div>
+        </div>
+        <img *ngIf="complaint.imageUrl" [src]="complaint.imageUrl" alt="Complaint image" class="complaint-image">
       </div>
     </div>
   </div>
