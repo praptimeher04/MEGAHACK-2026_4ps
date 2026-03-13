@@ -1,0 +1,203 @@
+<div class="super-admin-container">
+  <div class="header">
+    <h1>Municipal Management Panel</h1>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="tabs">
+    <button [class.active]="activeTab === 'dashboard'" (click)="setActiveTab('dashboard')">Dashboard</button>
+    <button [class.active]="activeTab === 'departments'" (click)="setActiveTab('departments')">Department Management</button>
+    <button [class.active]="activeTab === 'complaints'" (click)="setActiveTab('complaints')">Complaint Management</button>
+  </div>
+
+  <!-- Dashboard Tab -->
+  <div *ngIf="activeTab === 'dashboard'" class="tab-content">
+    <h2>Dashboard Overview</h2>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon">🏢</div>
+        <div class="stat-number">{{ stats.totalDepartments }}</div>
+        <div class="stat-label">Total Departments</div>
+      </div>
+      
+      <div class="stat-card">
+        <div class="stat-icon">📊</div>
+        <div class="stat-number">{{ stats.totalComplaints }}</div>
+        <div class="stat-label">Total Complaints</div>
+      </div>
+      
+      <div class="stat-card pending">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-number">{{ stats.pendingComplaints }}</div>
+        <div class="stat-label">Pending Complaints</div>
+      </div>
+      
+      <div class="stat-card resolved">
+        <div class="stat-icon">✅</div>
+        <div class="stat-number">{{ stats.resolvedComplaints }}</div>
+        <div class="stat-label">Resolved Complaints</div>
+      </div>
+    </div>
+
+    <div class="table-section" style="margin-top: 30px;">
+      <h3>Recent Departments</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Municipal ID</th>
+            <th>Name</th>
+            <th>City</th>
+            <th>Mobile</th>
+            <th>Assigned User</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dept of departments.slice(0, 5)">
+            <td>{{ dept.id }}</td>
+            <td>{{ dept.municipalId }}</td>
+            <td>{{ dept.name }}</td>
+            <td>{{ dept.city?.cityName }}</td>
+            <td>{{ dept.mobileNumber }}</td>
+            <td>{{ dept.assignedUser?.name || 'Not Assigned' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Department Management Tab -->
+  <div *ngIf="activeTab === 'departments'" class="tab-content">
+    <h2>Department Management</h2>
+    
+    <div class="form-section">
+      <h3>Add New Department</h3>
+      <form (ngSubmit)="createDepartment()">
+        <div class="form-group">
+          <label>Select City:</label>
+          <select [(ngModel)]="departmentForm.cityId" name="cityId" required>
+            <option value="">-- Select City --</option>
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Municipal ID:</label>
+          <input type="text" [(ngModel)]="departmentForm.municipalId" name="municipalId" required>
+        </div>
+        <div class="form-group">
+          <label>Department Name:</label>
+          <input type="text" [(ngModel)]="departmentForm.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number:</label>
+          <input type="text" [(ngModel)]="departmentForm.mobileNumber" name="mobileNumber" required>
+        </div>
+        <div class="form-group">
+          <label>Location Link:</label>
+          <input type="text" [(ngModel)]="departmentForm.locationLink" name="locationLink" required>
+        </div>
+        <div class="form-group">
+          <label>Office Images (URL):</label>
+          <input type="text" [(ngModel)]="departmentForm.officeImages" name="officeImages">
+        </div>
+        <div class="form-group">
+          <label>Pincode:</label>
+          <input type="text" [(ngModel)]="departmentForm.pincode" name="pincode" required>
+        </div>
+        <div class="form-group">
+          <label>Address:</label>
+          <textarea [(ngModel)]="departmentForm.address" name="address"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Assign User:</label>
+          <select [(ngModel)]="departmentForm.assignedUserId" name="assignedUserId">
+            <option value="">-- Select User (Optional) --</option>
+            <option *ngFor="let user of users" [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Add Department</button>
+      </form>
+    </div>
+
+    <div class="table-section">
+      <h3>All Departments</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>City</th>
+            <th>Municipal ID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Pincode</th>
+            <th>Assigned User</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dept of departments">
+            <td>{{ dept.id }}</td>
+            <td>{{ dept.city?.cityName }}</td>
+            <td>{{ dept.municipalId }}</td>
+            <td>{{ dept.name }}</td>
+            <td>{{ dept.mobileNumber }}</td>
+            <td>{{ dept.pincode }}</td>
+            <td>{{ dept.assignedUser?.name || 'Not Assigned' }}</td>
+            <td>
+              <button class="btn-delete" (click)="deleteDepartment(dept.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Complaint Management Tab -->
+  <div *ngIf="activeTab === 'complaints'" class="tab-content">
+    <h2>Complaint Management</h2>
+    
+    <div class="table-section">
+      <h3>All Complaints</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Status</th>
+            <th>Department</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let complaint of complaints">
+            <td>{{ complaint.id }}</td>
+            <td>{{ complaint.title }}</td>
+            <td>{{ complaint.description }}</td>
+            <td>{{ complaint.category }}</td>
+            <td>{{ complaint.location }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="complaint.status?.toLowerCase()">
+                {{ complaint.status }}
+              </span>
+            </td>
+            <td>{{ complaint.department?.name || 'N/A' }}</td>
+            <td>{{ complaint.createdDate | date:'short' }}</td>
+            <td>
+              <select (change)="updateComplaintStatus(complaint.id, $any($event.target).value)" 
+                      [value]="complaint.status" class="status-select">
+                <option value="PENDING">Pending</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="RESOLVED">Resolved</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
