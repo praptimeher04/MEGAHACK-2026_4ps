@@ -34,7 +34,7 @@ public class User {
     private String password;
     
     @Column(name = "user_type", nullable = false)
-    private String userType;
+    private Integer userType;
     
     @Column(nullable = false)
     private String username;

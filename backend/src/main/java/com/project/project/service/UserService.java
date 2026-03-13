@@ -31,7 +31,7 @@ public class UserService {
         user.setMobileNumber(request.getMobileNumber());
         user.setPhoneNumber(request.getMobileNumber());
         user.setPassword(request.getPassword());
-        user.setUserType("USER");
+        user.setUserType(0);
         user.setUsername(request.getEmail());
         user.setAddress("N/A");
         user.setCity("N/A");
@@ -57,6 +57,6 @@ public class UserService {
         
         String token = jwtUtil.generateToken(user.getEmail(), user.getId());
         
-        return new LoginResponse("Login successful", user.getId(), token);
+        return new LoginResponse("Login successful", user.getId(), token, user.getUserType());
     }
 }

@@ -5,10 +5,12 @@ import { Home } from './home/home';
 import { RegisterComplaint } from './register-complaint/register-complaint';
 import { MyComplaints } from './my-complaints/my-complaints';
 import { AccountDetails } from './account-details/account-details';
+import { SuperAdminComponent } from './super-admin/super-admin';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'super-admin', component: SuperAdminComponent },
   { 
     path: 'dashboard', 
     component: DashboardComponent,

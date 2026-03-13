@@ -43,9 +43,15 @@ export class LoginComponent {
           if (response.token) {
             localStorage.setItem('authToken', response.token);
             localStorage.setItem('userId', response.userId.toString());
+            localStorage.setItem('userType', response.userType.toString());
           }
           alert('Login successful!');
-          this.router.navigate(['/dashboard/home']);
+          
+          if (response.userType === 1) {
+            this.router.navigate(['/super-admin']);
+          } else {
+            this.router.navigate(['/dashboard/home']);
+          }
         },
         error: (error) => {
           alert(error.error.message || 'Login failed');

@@ -1,0 +1,195 @@
+<div class="super-admin-container">
+  <div class="header">
+    <h1>Super Admin Panel</h1>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+
+  <div class="tabs">
+    <button [class.active]="activeTab === 'states'" (click)="setActiveTab('states')">States</button>
+    <button [class.active]="activeTab === 'cities'" (click)="setActiveTab('cities')">Cities</button>
+    <button [class.active]="activeTab === 'municipal'" (click)="setActiveTab('municipal')">Municipal Departments</button>
+  </div>
+
+  <!-- States Tab -->
+  <div *ngIf="activeTab === 'states'" class="tab-content">
+    <h2>Manage States</h2>
+    
+    <div class="form-section">
+      <h3>Add New State</h3>
+      <form (ngSubmit)="createState()">
+        <div class="form-group">
+          <label>State Code:</label>
+          <input type="text" [(ngModel)]="stateForm.stateCode" name="stateCode" required>
+        </div>
+        <div class="form-group">
+          <label>State Name:</label>
+          <input type="text" [(ngModel)]="stateForm.stateName" name="stateName" required>
+        </div>
+        <button type="submit" class="btn-primary">Add State</button>
+      </form>
+    </div>
+
+    <div class="table-section">
+      <h3>All States</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>State Code</th>
+            <th>State Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let state of states">
+            <td>{{ state.id }}</td>
+            <td>{{ state.stateCode }}</td>
+            <td>{{ state.stateName }}</td>
+            <td>
+              <button class="btn-delete" (click)="deleteState(state.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cities Tab -->
+  <div *ngIf="activeTab === 'cities'" class="tab-content">
+    <h2>Manage Cities</h2>
+    
+    <div class="form-section">
+      <h3>Add New City</h3>
+      <form (ngSubmit)="createCity()">
+        <div class="form-group">
+          <label>Select State:</label>
+          <select [(ngModel)]="cityForm.stateId" name="stateId" required>
+            <option value="">-- Select State --</option>
+            <option *ngFor="let state of states" [value]="state.id">{{ state.stateName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>City Code:</label>
+          <input type="text" [(ngModel)]="cityForm.cityCode" name="cityCode" required>
+        </div>
+        <div class="form-group">
+          <label>City Name:</label>
+          <input type="text" [(ngModel)]="cityForm.cityName" name="cityName" required>
+        </div>
+        <button type="submit" class="btn-primary">Add City</button>
+      </form>
+    </div>
+
+    <div class="table-section">
+      <h3>All Cities</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>State</th>
+            <th>City Code</th>
+            <th>City Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let city of cities">
+            <td>{{ city.id }}</td>
+            <td>{{ city.state?.stateName }}</td>
+            <td>{{ city.cityCode }}</td>
+            <td>{{ city.cityName }}</td>
+            <td>
+              <button class="btn-delete" (click)="deleteCity(city.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Municipal Departments Tab -->
+  <div *ngIf="activeTab === 'municipal'" class="tab-content">
+    <h2>Manage Municipal Departments</h2>
+    
+    <div class="form-section">
+      <h3>Add New Municipal Department</h3>
+      <form (ngSubmit)="createMunicipalDepartment()">
+        <div class="form-group">
+          <label>Select City:</label>
+          <select [(ngModel)]="municipalForm.cityId" name="cityId" required>
+            <option value="">-- Select City --</option>
+            <option *ngFor="let city of cities" [value]="city.id">{{ city.cityName }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Municipal ID:</label>
+          <input type="text" [(ngModel)]="municipalForm.municipalId" name="municipalId" required>
+        </div>
+        <div class="form-group">
+          <label>Department Name:</label>
+          <input type="text" [(ngModel)]="municipalForm.name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label>Mobile Number:</label>
+          <input type="text" [(ngModel)]="municipalForm.mobileNumber" name="mobileNumber" required>
+        </div>
+        <div class="form-group">
+          <label>Location Link:</label>
+          <input type="text" [(ngModel)]="municipalForm.locationLink" name="locationLink" required>
+        </div>
+        <div class="form-group">
+          <label>Office Images (URL):</label>
+          <input type="text" [(ngModel)]="municipalForm.officeImages" name="officeImages">
+        </div>
+        <div class="form-group">
+          <label>Pincode:</label>
+          <input type="text" [(ngModel)]="municipalForm.pincode" name="pincode" required>
+        </div>
+        <div class="form-group">
+          <label>Address:</label>
+          <textarea [(ngModel)]="municipalForm.address" name="address"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Assign User:</label>
+          <select [(ngModel)]="municipalForm.assignedUserId" name="assignedUserId">
+            <option value="">-- Select User (Optional) --</option>
+            <option *ngFor="let user of users" [value]="user.id">{{ user.name }} ({{ user.email }})</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-primary">Add Municipal Department</button>
+      </form>
+    </div>
+
+    <div class="table-section">
+      <h3>All Municipal Departments</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>City</th>
+            <th>Municipal ID</th>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Pincode</th>
+            <th>Assigned User</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let dept of municipalDepartments">
+            <td>{{ dept.id }}</td>
+            <td>{{ dept.city?.cityName }}</td>
+            <td>{{ dept.municipalId }}</td>
+            <td>{{ dept.name }}</td>
+            <td>{{ dept.mobileNumber }}</td>
+            <td>{{ dept.pincode }}</td>
+            <td>{{ dept.assignedUser?.name || 'Not Assigned' }}</td>
+            <td>
+              <button class="btn-delete" (click)="deleteMunicipalDepartment(dept.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
