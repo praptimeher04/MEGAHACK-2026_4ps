@@ -1,0 +1,220 @@
+<div class="tab-content fade-in">
+  <div class="header-section">
+    <h1>Account Details</h1>
+    <p>Manage your personal information, preferences, and security settings.</p>
+  </div>
+
+  <div class="account-grid">
+    <div class="profile-card glass-card">
+      <div class="avatar-large">U</div>
+      <h2>John Doe</h2>
+      <p class="role">Premium User</p>
+      
+      <div class="contact-info">
+        <div class="info-item">
+          <span class="label">Email</span>
+          <span class="value">john.doe@example.com</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Phone</span>
+          <span class="value">+1 (555) 123-4567</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Location</span>
+          <span class="value">San Francisco, CA</span>
+        </div>
+      </div>
+      
+      <button class="btn-secondary full-width">Edit Profile</button>
+    </div>
+
+    <div class="settings-card glass-card">
+      <h3>Security & Preferences</h3>
+      
+      <div class="setting-group">
+        <div class="setting-info">
+          <h4>Two-Factor Authentication</h4>
+          <p>Add an extra layer of security to your account.</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+      
+      <div class="setting-group">
+        <div class="setting-info">
+          <h4>Email Notifications</h4>
+          <p>Receive updates about your tasks and complaints.</p>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" checked />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="danger-zone">
+        <h4>Danger Zone</h4>
+        <p>Irreversible and destructive actions.</p>
+        <button class="btn-danger">Delete Account</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .fade-in { animation: fadeIn 0.4s ease-in-out; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-section { margin-bottom: 2rem; }
+  .header-section h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+  .header-section p { color: var(--text-secondary); }
+
+  .account-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 800px) {
+    .account-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 2rem;
+  }
+
+  .profile-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar-large {
+    width: 96px;
+    height: 96px;
+    background: var(--accent-color);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    box-shadow: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+  }
+
+  .profile-card h2 { margin-bottom: 0.25rem; }
+  .role { color: var(--accent-color); font-size: 0.875rem; font-weight: 500; margin-bottom: 2rem; }
+
+  .contact-info { width: 100%; margin-bottom: 2rem; text-align: left;}
+  
+  .info-item {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; }
+  .value { font-weight: 500; }
+
+  .full-width { width: 100%; }
+  
+  .btn-secondary {
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: rgba(255,255,255,0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+  .settings-card h3 {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .setting-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .setting-info h4 { margin-bottom: 0.25rem; font-weight: 500; }
+  .setting-info p { color: var(--text-secondary); font-size: 0.875rem; }
+
+  /* Toggle Switch CSS */
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+  .toggle-switch input { opacity: 0; width: 0; height: 0; }
+  .slider {
+    position: absolute; cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(255,255,255,0.1);
+    transition: .4s;
+    border-radius: 24px;
+    border: 1px solid var(--glass-border);
+  }
+  .slider:before {
+    position: absolute; content: "";
+    height: 18px; width: 18px;
+    left: 3px; bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+  input:focus + .slider { box-shadow: 0 0 1px var(--accent-color); }
+  input:checked + .slider:before { transform: translateX(24px); }
+
+  .danger-zone {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .danger-zone h4 { color: #fca5a5; margin-bottom: 0.25rem; }
+  .danger-zone p { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1rem; }
+
+  .btn-danger {
+    padding: 0.6rem 1.25rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    background: rgba(239, 68, 68, 0.1);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    cursor: pointer;
+  }
+  
+  .btn-danger:hover {
+    background: rgba(239, 68, 68, 0.2);
+    color: #fef2f2;
+  }
+</style>

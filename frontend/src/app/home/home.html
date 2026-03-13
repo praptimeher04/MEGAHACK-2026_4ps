@@ -1,0 +1,154 @@
+<div class="tab-content fade-in">
+  <div class="header-section">
+    <h1>Welcome to Your Dashboard</h1>
+    <p>Get an overview of your activities and quick access to tools.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card glass-card">
+      <div class="stat-icon">📈</div>
+      <div class="stat-info">
+        <h3>Total Tasks</h3>
+        <p class="stat-value">24</p>
+      </div>
+    </div>
+    
+    <div class="stat-card glass-card">
+      <div class="stat-icon">✅</div>
+      <div class="stat-info">
+        <h3>Completed</h3>
+        <p class="stat-value text-success">18</p>
+      </div>
+    </div>
+
+    <div class="stat-card glass-card">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-info">
+        <h3>Pending Complaints</h3>
+        <p class="stat-value text-danger">2</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-activity glass-card">
+    <h3>Recent Activity</h3>
+    <ul class="activity-list">
+      <li>Logged in from Windows at 10:00 AM</li>
+      <li>Updated profile picture</li>
+      <li>Resolved complaint #1024</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .fade-in {
+    animation: fadeIn 0.4s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .header-section {
+    margin-bottom: 2rem;
+  }
+
+  .header-section h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .header-section p {
+    color: var(--text-secondary);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--glass-border);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  .stat-icon {
+    font-size: 2.5rem;
+    background: rgba(99, 102, 241, 0.1);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1rem;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+
+  .stat-info h3 {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .text-success { color: var(--success); }
+  .text-danger { color: var(--danger); }
+
+  .recent-activity h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .activity-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .activity-list li {
+    padding: 0.75rem 0;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+  }
+  
+  .activity-list li::before {
+    content: "•";
+    color: var(--accent-color);
+    font-weight: bold;
+    display: inline-block; 
+    width: 1em;
+    margin-left: -1em;
+  }
+
+  .activity-list li:last-child {
+    border-bottom: none;
+  }
+</style>

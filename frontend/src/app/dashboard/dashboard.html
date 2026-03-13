@@ -1,0 +1,59 @@
+<div class="dashboard-layout">
+  <!-- Top Navigation / Header -->
+  <header class="glass-header">
+    <div class="header-logo">
+      <span class="logo-icon">✨</span>
+      <h2>MyApp</h2>
+    </div>
+    <div class="user-profile">
+      <div class="avatar">U</div>
+      <span>User</span>
+    </div>
+  </header>
+
+  <div class="dashboard-body">
+    <!-- Side Navigation / Tabs -->
+    <nav class="side-nav glass-nav">
+      <ul class="nav-links">
+        <li>
+          <a routerLink="home" routerLinkActive="active" class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="text">Home Tab</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="register-complaint" routerLinkActive="active" class="nav-item">
+            <span class="icon">📝</span>
+            <span class="text">Register Complaint</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="my-complaints" routerLinkActive="active" class="nav-item">
+            <span class="icon">📋</span>
+            <span class="text">My Complaints</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="account-details" routerLinkActive="active" class="nav-item">
+            <span class="icon">👤</span>
+            <span class="text">Account Details</span>
+          </a>
+        </li>
+      </ul>
+      
+      <div class="nav-footer">
+        <a routerLink="/login" class="nav-item logout-btn">
+          <span class="icon">🚪</span>
+          <span class="text">Logout</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Main Content Area where tab content loads -->
+    <main class="main-content">
+      <div class="content-wrapper glass-panel">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </div>
+</div>
