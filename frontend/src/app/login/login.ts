@@ -1,17 +1,31 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
 export class LoginComponent {
-  isLoginMode = true; // Togggle between Simple Login and Simple Register
+  isLoginMode = true;
 
-  constructor(private router: Router) {}
+  registerData = {
+    name: '',
+    email: '',
+    mobileNumber: '',
+    password: ''
+  };
+  
+  loginData = {
+    email: '',
+    password: ''
+  };
+
+  constructor(private router: Router, private http: HttpClient) { }
 
   toggleMode(event?: Event) {
     if (event) {
@@ -21,13 +35,42 @@ export class LoginComponent {
   }
 
   onLogin(event: Event) {
-    event.preventDefault(); // Prevent default form submission
-    this.router.navigate(['/dashboard']);
+    event.preventDefault();
+    
+    this.http.post<any>('http://localhost:8090/api/auth/login', this.loginData)
+      .subscribe({
+        next: (response) => {
+          if (response.token) {
+            localStorage.setItem('authToken', response.token);
+            localStorage.setItem('userId', response.userId.toString());
+          }
+          alert('Login successful!');
+          this.router.navigate(['/dashboard/home']);
+        },
+        error: (error) => {
+          alert(error.error.message || 'Login failed');
+        }
+      });
   }
 
-  onRegister(event: Event) {
-    event.preventDefault(); // Prevent default form submission
-    // After successful registration, nav to dashboard
-    this.router.navigate(['/dashboard']);
+  onRegister(form: any) {
+    if (form.valid) {
+      console.log('Form data:', this.registerData);
+
+      this.http.post<any>('http://localhost:8090/api/auth/register', this.registerData)
+        .subscribe({
+          next: (response) => {
+            if (response.token) {
+              localStorage.setItem('authToken', response.token);
+              localStorage.setItem('userId', response.userId.toString());
+            }
+            alert('Registration successful!');
+            this.router.navigate(['/dashboard/home']);
+          },
+          error: (error) => {
+            alert(error.error.message || 'Registration failed');
+          }
+        });
+    }
   }
 }
