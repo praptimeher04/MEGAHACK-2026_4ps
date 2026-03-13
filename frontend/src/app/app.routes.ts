@@ -6,11 +6,15 @@ import { RegisterComplaint } from './register-complaint/register-complaint';
 import { MyComplaints } from './my-complaints/my-complaints';
 import { AccountDetails } from './account-details/account-details';
 import { SuperAdminComponent } from './super-admin/super-admin';
+import { MunicipalPanelComponent } from './municipal-panel/municipal-panel';
+import { MunicipalManagementComponent } from './municipal-management/municipal-management';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'super-admin', component: SuperAdminComponent },
+  { path: 'municipal-panel', component: MunicipalPanelComponent },
+  { path: 'municipal-management', component: MunicipalManagementComponent },
   { 
     path: 'dashboard', 
     component: DashboardComponent,

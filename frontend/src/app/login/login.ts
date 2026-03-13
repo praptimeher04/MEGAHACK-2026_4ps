@@ -19,7 +19,7 @@ export class LoginComponent {
     mobileNumber: '',
     password: ''
   };
-  
+
   loginData = {
     email: '',
     password: ''
@@ -36,25 +36,34 @@ export class LoginComponent {
 
   onLogin(event: Event) {
     event.preventDefault();
-    
-    this.http.post<any>('http://localhost:8090/api/auth/login', this.loginData)
+
+    console.log('Attempting login with:', this.loginData);
+
+    this.http.post<any>('http://localhost:8089/api/auth/login', this.loginData)
       .subscribe({
         next: (response) => {
+          console.log('Login response:', response);
           if (response.token) {
             localStorage.setItem('authToken', response.token);
             localStorage.setItem('userId', response.userId.toString());
             localStorage.setItem('userType', response.userType.toString());
           }
           alert('Login successful!');
-          
+
           if (response.userType === 1) {
             this.router.navigate(['/super-admin']);
+          } else if (response.userType === 2) {
+            this.router.navigate(['/municipal-management']);
+          } else if (response.userType === 3) {
+            this.router.navigate(['/municipal-panel']);
           } else {
             this.router.navigate(['/dashboard/home']);
           }
         },
         error: (error) => {
-          alert(error.error.message || 'Login failed');
+          console.error('Login error:', error);
+          const errorMessage = error.error?.message || error.message || 'Login failed';
+          alert('Login Error: ' + errorMessage);
         }
       });
   }
